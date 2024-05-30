@@ -1,0 +1,27 @@
+<div>
+    <div class="text-center mt-20">
+        <h1 class="text-orange-400 text-5xl font-bold">Welcome To Inventory App</h1>
+    </div>
+
+    <div class="flex justify-center p-16">
+        <img class="w-72" src="/Public/assets/bxs-package.svg" alt="">
+    </div>
+
+
+<div class="gap-8 flex flex-col">
+    <div class="flex justify-center">
+        <button class="view-login text-white w-4/5 p-3 bg-black text-center rounded-md">Log In</button>
+    </div>
+
+    <div class="flex justify-center">
+        <button class="view-register text-white w-4/5 p-3 bg-black text-center rounded-md">Sign Up</button>
+    </div>
+</div>
+
+</div>
+
+<script>
+    document.querySelector('.view-register').addEventListener('click',function(){
+        loadPartialView('sign-up',document.querySelector('.init'), false);
+    })
+</script>

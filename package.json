@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "taildev": "npx tailwindcss -i ./www/css/tailwind.css -o ./www/css/tailstyle.css --watch"
+    "taildev": "npx tailwindcss -i ./www/public/css/tailwind.css -o ./www/public/css/tailstyle.css --watch"
   },
   "keywords": [
     "ecosystem:cordova"
@@ -14,12 +14,21 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
+    "cordova-android": "^13.0.0",
     "cordova-browser": "^7.0.0",
+    "cordova-plugin-splashscreen": "^6.0.1",
     "tailwindcss": "^3.4.3"
   },
   "cordova": {
     "platforms": [
-      "browser"
-    ]
+      "browser",
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-splashscreen": {}
+    }
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
   }
 }
