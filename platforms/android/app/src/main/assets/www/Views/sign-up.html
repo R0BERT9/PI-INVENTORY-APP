@@ -12,8 +12,8 @@
     <div class="flex flex-col gap-5 w-[85%] m-auto"> <!--Contenido principal se utilizo gap para la separacion entre el form y el sign up-->
         <div class="flex flex-col gap-10"> <!--Primera seccion del contenido H1, P, Div para Formulario-->
         
-            <h2 class="font-bold text-4xl text-orange-400">Create Account</h2>
-            <p>Salte de aqui puto cabron</p>
+            <h2 class="font-bold text-4xl text-fc2">Create Account</h2>
+            <p class="text-[#888888] text-lg">Join us today! Sign up to start managing your inventory</p>
     
         
             <form action="" method="" class="flex flex-col gap-5 m-0">
@@ -25,24 +25,24 @@
         </div>
 
         <div class="flex items-center w-[90%] m-auto"> <!--Segunda seccion separacion entre form y sign up-->
-            <div class="flex-grow border-t border-orange-400"></div>
+            <div class="flex-grow border-t border-fc3"></div>
             <span class="mx-4 text-gray-400">Or</span>
-            <div class="flex-grow border-t border-orange-400"></div>
+            <div class="flex-grow border-t border-fc3"></div>
         </div>
         
-        <div class="flex flex-col gap-14"> <!--Tercera sección botones para sing up con google, sign up y already have an account-->
+        <div class="flex flex-col gap-7"> <!--Tercera sección botones para sing up con google, sign up y already have an account-->
             
             <div class="flex justify-center">
-                <button class=" w-full text-orange-400 rounded-md border-2 border-orange-400 p-2">Sign Up With Google</button>
+                <button class=" w-full text-fc2 rounded-md border-2 border-fc2 p-2">Sign Up With Google</button>
             </div>
 
             <div class="flex justify-center flex-col gap-4">
 
-                <button class=" w-full rounded-md bg-green-700 text-white p-3 font-bold">Sign Up</button>
+                <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Sign Up</button>
 
                 <div class="flex justify-center gap-2 items-center">
                     <span class="text-gray-600 font-semibold">Already have an account?</span>
-                    <button class="text-orange-400 font-medium">Log In</button>
+                    <button class="text-fc2 font-medium view-log-in">Log In</button>
                 </div>
 
             </div>
@@ -52,7 +52,13 @@
 
 
 <script>
+
+
     document.querySelector('.view-back').addEventListener('click',function(){
         loadPartialView('home-app',document.querySelector('.init'), false);
+    })
+
+    document.querySelector('.view-log-in').addEventListener('click',function(){
+        loadPartialView('log-in',document.querySelector('.init'), false);
     })
 </script>
