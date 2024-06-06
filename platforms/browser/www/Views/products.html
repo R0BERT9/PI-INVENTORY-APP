@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
+
+<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+
+    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
+        <button><img  src="/www/Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
+        <h3 class="font-bold">Back</h3>
+    </div>
+
+    <div class="w-[85%] m-auto"> <!--Contenido principal se utilizo gap para la separacion entre el form y el sign up-->
+        <div class="flex gap-5 justify-between ">
+            <h3>Products</h3>
+            <p>Add Products</p>    
+        </div>
+
+        <div>
+            <div class="w-full bg-[#eef2ff] flex p-3 rounded-xl gap-4 ">
+                <div class="w-1/5 bg-white rounded-2xl items-center flex ">
+                    <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png">
+                </div>
+                <div>
+                    <h3 class="text-[#333333] font-medium">HDMI Cable</h3>
+                    <p class="text-[#33333] text-xs">Date: 14/5/24</p>
+                    <p class="text-[#33333] text-xs">Qty: 5</p>
+                </div>
+            </div>
+
+        </div>
+      
+
+    </div>
+
+
+</div>
+
+
+<script>
+    document.querySelector('.view-back').addEventListener('click',function(){
+        loadPartialView('home-app',document.querySelector('.init'), false);
+    })
+
+    document.querySelector('.view-create-account').addEventListener('click',function(){
+        loadPartialView('sign-up',document.querySelector('.init'), false);
+    })
+</script>

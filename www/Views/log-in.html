@@ -1,6 +1,4 @@
-<head>
-    <link rel="stylesheet" href="/www/Public/css/tailstyle.css">
-</head> 
+
 
 <div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
 
@@ -17,8 +15,8 @@
     
         
             <form action="" method="" class="flex flex-col gap-5 m-0">
-                <input type="email" placeholder="Email Address" class="w-full p-2 bg-slate-100 rounded-lg">
-                <input type="password" placeholder="Password" class="w-full p-2 bg-slate-100 rounded-lg">
+                <input type="email" placeholder="Email Address" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
+                <input type="password" placeholder="Password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
             </form>
         
         </div>
@@ -37,7 +35,7 @@
 
             <div class="flex justify-center flex-col gap-4">
 
-                <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Log In</button>
+                <button class="view-home-inventory w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Log In</button>
 
                 <div class="flex justify-center gap-2 items-center">
                     <span class="text-gray-600 font-semibold">Don't have an account?</span>
@@ -57,5 +55,9 @@
 
     document.querySelector('.view-create-account').addEventListener('click',function(){
         loadPartialView('sign-up',document.querySelector('.init'), false);
+    })
+
+    document.querySelector('.view-home-inventory').addEventListener('click',function(){
+        loadPartialView('home-inventory',document.querySelector('.init'), false);
     })
 </script>

@@ -8,4 +8,8 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+    <preference name="KeyboardResize" value="true" />
+    <preference name="KeyboardShrinkView" value="true" />
+    <preference name="KeyboardAccessoryBarVisible" value="false" />
 </widget>

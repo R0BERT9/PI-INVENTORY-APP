@@ -7,7 +7,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "taildev": "npx tailwindcss -i ./www/public/css/tailwind.css -o ./www/public/css/tailstyle.css --watch"
-
   },
   "keywords": [
     "ecosystem:cordova"
@@ -17,6 +16,7 @@
   "devDependencies": {
     "cordova-android": "^13.0.0",
     "cordova-browser": "^7.0.0",
+    "cordova-plugin-cdvnavbar": "^2.5.0",
     "cordova-plugin-splashscreen": "^6.0.1",
     "tailwindcss": "^3.4.3"
   },
