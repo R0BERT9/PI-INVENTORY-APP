@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="/www/Public/css/tailstyle.css">
-   
+
+
    <div class="bg-fc2 ">
         <div class="flex flex-col gap-4 py-14 w-11/12 m-auto -my-4">
             <h2 class="font-bold text-4xl text-white">Hello, Robert9</h2>
@@ -18,7 +19,7 @@
     <div class="gap-6 flex flex-col">
         <div class="flex justify-between w-11/12 m-auto">
             <h2 class="font-bold text-xl text-fc2">Recent Products</h2>
-            <p class="font-bold text-[#888888]">See All</p>
+            <p class="view-see-products font-bold text-[#888888]">See All</p>
         </div>
 
         <div class="w-4/5 m-auto flex flex-col gap-4">
@@ -79,30 +80,18 @@
         </div>
     </div>
 
-    <div class=" nav-bar bg-fc3 flex justify-evenly sticky bottom-0 left-0 w-full  py-2">
-
-        <button class="flex flex-col items-center">
-            <img class="w-8" src="Public/assets/bx-home-smile.svg" alt="">
-            <span class="text-white text-center">Home</span>
-        </button>
-
-        <button class="flex flex-col items-center">
-            <img  class="w-8" src="Public/assets/bx-package-bar.svg" alt="">
-            <span class="text-white">Products</span>
-        </button>
-
-        <button class="flex flex-col items-center">
-            <img class="w-8" src="Public/assets/bx-qr-scan-bar.svg" alt="">
-            <span class="text-white">Quick Scan</span>
-        </button>
-
-        <button class="flex flex-col items-center">
-            <img class="w-8" src="Public/assets/bx-user-circle-bar.svg" alt="">
-            <span class="text-white ">Profile</span>
-        </button>
+    <div class="nav-bar bg-fc3 flex justify-evenly bottom-0 left-0 right-0 fixed w-full py-2">
 
     </div>
 
+
+    </div>
 <script>
-    
+        loadPartialView('nav-bar', document.querySelector('.nav-bar'), false)
+
+        document.querySelector('.view-see-products').addEventListener('click',function(){
+        loadPartialView('products',document.querySelector('.init'), false);
+    })
 </script>
+
+

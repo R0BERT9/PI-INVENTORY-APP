@@ -35,7 +35,7 @@
 
             <div class="flex justify-center flex-col gap-4">
 
-                <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Log In</button>
+                <button class="view-home-inventory w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Log In</button>
 
                 <div class="flex justify-center gap-2 items-center">
                     <span class="text-gray-600 font-semibold">Don't have an account?</span>
@@ -55,5 +55,9 @@
 
     document.querySelector('.view-create-account').addEventListener('click',function(){
         loadPartialView('sign-up',document.querySelector('.init'), false);
+    })
+
+    document.querySelector('.view-home-inventory').addEventListener('click',function(){
+        loadPartialView('home-inventory',document.querySelector('.init'), false);
     })
 </script>
