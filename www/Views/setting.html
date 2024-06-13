@@ -1,0 +1,101 @@
+<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
+
+<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+
+    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
+        <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
+        <h3 class="font-bold">Back</h3>
+    </div>
+
+    <div class="w-[85%] m-auto flex flex-col gap-6 ">
+        <div class="flex gap-5 justify-between items-end">
+            <div class="gap-1 flex flex-col">
+                <h3 class="text-fc2 font-bold text-3xl">Settings</h3>
+                <div class="flex-grow border-t border-fc3"></div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-20">
+            <div class="gap-12 flex flex-col">
+                <div class="flex flex-col gap-5"> <!--Contenido principal-->
+                    <h2 class="font-bold text-lg">Account</h2> <!--Titulo principal-->
+    
+                    <div class="w-full flex"> <!--Seleccion-->
+                        <div class="w-[50%] flex gap-3">
+                            <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
+                                <img class="flex m-auto w-10" src="/Public/assets/bx-user.svg" alt="">
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <h2 class="font-bold">Robert9</h2>
+                                <p class="text-sm text-[#B5B1AC]">Personal Info</p>
+                            </div>
+                        </div>
+                        <button class="flex items-center w-[50%] justify-end">
+                            <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
+                        </button>
+                    </div>  
+                </div>
+    
+                <div class="flex flex-col gap-5"> <!--Contenido principal-->
+                    <h2 class="font-bold text-lg">Settings</h2> <!--Titulo principal-->
+    
+                    <div class="w-full flex"> <!--Seleccion-->
+                        <div class="w-[50%] flex gap-3">
+                            <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
+                                <img class="flex m-auto w-10" src="/Public/assets/bx-world.svg" alt="">
+                            </div>
+                            <div class="flex items-center">
+                                <h2 class="font-bold">Language</h2>
+                            </div>
+                        </div>
+                        <button class="flex items-center w-[50%] justify-end">
+                            <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
+                        </button>
+                    </div>
+
+                    <div class="w-full flex"> <!--Seleccion-->
+                        <div class="w-[50%] flex gap-3">
+                            <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
+                                <img class="flex m-auto w-10" src="/Public/assets/bx-moon.svg" alt="">
+                            </div>
+                            <div class="flex items-center">
+                                <h2 class="font-bold">Dark Mode</h2>
+                            </div>
+                        </div>
+                        <button class="flex items-center w-[50%] justify-end">
+                            <img class="w-10" src="/Public/assets/bx-toggle-left.svg" alt="">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="w-full flex"> <!--Seleccion-->
+                    <div class="w-[50%] flex gap-3">
+                        <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
+                            <img class="flex m-auto w-10" src="/Public/assets/bx-log-out.svg" alt="">
+                        </div>
+                        <div class="flex items-center">
+                            <h2 class="font-bold">Log Out</h2>
+                        </div>
+                    </div>
+                    <button class="flex items-center w-[50%] justify-end">
+                        <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="navBar" class="nav-bar bg-fc3 flex justify-around bottom-0  right-0  fixed w-full py-2">
+</div>
+
+<script>  /* partial de nav bar y boton back*/ 
+        loadPartialView('nav-bar', document.querySelector('.nav-bar'), false)
+
+
+    document.querySelector('.view-back').addEventListener('click',function(){
+        loadPartialView('home-inventory',document.querySelector('.init'), false);
+    })
+</script>

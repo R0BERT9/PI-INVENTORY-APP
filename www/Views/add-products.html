@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
+
+<div class="flex flex-col gap-8 pt-7">
+
+
+<div class="w-11/12 m-auto flex justify-center items-center">
+    <div class=" justify-start flex absolute left-5">
+        <button><img src="/Public/assets/bx-arrow-back.svg" alt="" srcset=""></button>
+    </div>
+
+    <div class="flex justify-center w-[80%]">
+        <h2 class="text-fc2 font-bold text-3xl text-center">Add Product</h2>
+    </div>
+</div>
+
+    <form class="w-10/12 m-auto gap-3 flex flex-col">
+        <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Item Name">
+        <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Description">
+        <div class="flex gap-4">
+            <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF]" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
+            <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md " type="text" placeholder="Qty"> 
+        </div>
+        <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Location">
+
+        <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
+            <input class="opacity-0 w-full h-full z-50 " type="file" >
+            <img class="absolute w-40 flex " src="Public/assets/bx-image.svg" alt="" srcset="">
+        </div>
+    </form>
+
+    <div class="w-11/12 m-auto">
+        <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Add Product</button>
+
+    </div>
+
+</div>
+
