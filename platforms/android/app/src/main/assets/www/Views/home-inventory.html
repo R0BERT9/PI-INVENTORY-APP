@@ -57,29 +57,11 @@
 
 
     </div>
-
-    <div id="navBar" class="nav-bar bg-fc3 flex justify-around bottom-0  right-0 fixed w-full py-2" >
-        
-    </div>
-        
+    
 <script>  /* partial view de nav y boton para ver productos */
-        loadPartialView('nav-bar', document.querySelector('.nav-bar'), false)
-
         document.querySelector('.view-see-products').addEventListener('click',function(){
         loadPartialView('products',document.querySelector('.init'), false);
         })
 </script>
 
-
-<script> /* script para esconder la barra de navegacion */
-        function hideNavBar() {
-            var navBar = document.getElementById("navBar");
-            navBar.style.display = "none";
-        }
-
-        function showNavBar() {
-            var navBar = document.getElementById("navBar");
-            navBar.style.display = "flex";
-        }
-</script>
 

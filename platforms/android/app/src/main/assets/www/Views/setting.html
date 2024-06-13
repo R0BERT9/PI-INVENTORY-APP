@@ -30,7 +30,7 @@
                                 <p class="text-sm text-[#B5B1AC]">Personal Info</p>
                             </div>
                         </div>
-                        <button class="flex items-center w-[50%] justify-end">
+                        <button class="flex items-center w-[50%] justify-end view-profile">
                             <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
                         </button>
                     </div>  
@@ -88,14 +88,12 @@
     </div>
 </div>
 
-<div id="navBar" class="nav-bar bg-fc3 flex justify-around bottom-0  right-0  fixed w-full py-2">
-</div>
-
 <script>  /* partial de nav bar y boton back*/ 
-        loadPartialView('nav-bar', document.querySelector('.nav-bar'), false)
-
-
     document.querySelector('.view-back').addEventListener('click',function(){
         loadPartialView('home-inventory',document.querySelector('.init'), false);
+    })
+
+    document.querySelector('.view-profile').addEventListener('click',function(){
+        loadPartialView('profile',document.querySelector('.init'), false);
     })
 </script>

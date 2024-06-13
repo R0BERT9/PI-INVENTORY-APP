@@ -98,13 +98,7 @@
 
 </div>
 
-<div id="navBar" class="nav-bar bg-fc3 flex justify-around bottom-0  right-0  fixed w-full py-2">
-</div>
-
-<script>  /* partial de nav bar y boton back*/ 
-        loadPartialView('nav-bar', document.querySelector('.nav-bar'), false)
-
-
+<script>  /* partial de nav bar y boton back*/
     document.querySelector('.view-back').addEventListener('click',function(){
         loadPartialView('home-inventory',document.querySelector('.init'), false);
     })
