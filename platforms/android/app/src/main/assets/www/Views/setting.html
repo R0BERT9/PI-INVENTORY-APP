@@ -79,7 +79,7 @@
                             <h2 class="font-bold">Log Out</h2>
                         </div>
                     </div>
-                    <button class="flex items-center w-[50%] justify-end">
+                    <button class="flex items-center w-[50%] justify-end logout-button">
                         <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
                     </button>
                 </div>
@@ -89,6 +89,15 @@
 </div>
 
 <script>  /* partial de nav bar y boton back*/ 
+
+document.querySelector('.logout-button').addEventListener('click', function() {
+    firebase.auth().signOut().then(function() {
+      console.log('Sign-out successful.');
+    }).catch(function(error) {
+      console.error('Error al cerrar sesión:', error);
+    });
+  });
+
     document.querySelector('.view-back').addEventListener('click',function(){
         loadPartialView('home-inventory',document.querySelector('.init'), false);
     })

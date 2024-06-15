@@ -1,48 +1,44 @@
 <link rel="stylesheet" href="/www/Public/css/tailstyle.css">
 
-<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  
 
-    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
+    <div class="flex gap-2 view-back"> 
         <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
         <h3 class="font-bold">Back</h3>
     </div>
 
-    <div class="flex flex-col gap-5 w-[85%] m-auto"> <!--Contenido principal se utilizo gap para la separacion entre el form y el sign up-->
-        <div class="flex flex-col gap-10"> <!--Primera seccion del contenido H1, P, Div para Formulario-->
-        
+    <div class="flex flex-col gap-5 w-[85%] m-auto"> 
+        <div class="flex flex-col gap-10"> 
+
             <h2 class="font-bold text-4xl text-fc2">Create Account</h2>
             <p class="text-[#888888] text-lg">Join us today! Sign up to start managing your inventory</p>
-    
-        
-            <form action="" method="" class="flex flex-col gap-5 m-0">
-                <input type="text" placeholder="Full name" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
-                <input type="email" placeholder="Email Address" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
-                <input type="password" placeholder="Password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
+
+
+            <form id="register-form" class="flex flex-col gap-5 m-0" onsubmit="registerUser(event)">
+                <input type="text" id="full-name" placeholder="Full name" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
+                <input type="email" id="email" placeholder="Email Address" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
+                <input type="password" id="password" placeholder="Password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none">
+                <button type="submit" id="sign-up-button" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold ">Sign Up</button>
             </form>
-        
+
         </div>
 
-        <div class="flex items-center w-[90%] m-auto"> <!--Segunda seccion separacion entre form y sign up-->
+        <div class="flex items-center w-[90%] m-auto"> 
             <div class="flex-grow border-t border-fc3"></div>
             <span class="mx-4 text-gray-400">Or</span>
             <div class="flex-grow border-t border-fc3"></div>
         </div>
-        
-        <div class="flex flex-col gap-7"> <!--Tercera sección botones para sing up con google, sign up y already have an account-->
-            
+
+        <div class="flex flex-col gap-7"> 
             <div class="flex justify-center">
                 <button class=" w-full text-fc2 rounded-md border-2 border-fc2 p-2">Sign Up With Google</button>
             </div>
 
             <div class="flex justify-center flex-col gap-4">
-
-                <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Sign Up</button>
-
                 <div class="flex justify-center gap-2 items-center">
                     <span class="text-gray-600 font-semibold">Already have an account?</span>
                     <button class="text-fc2 font-medium view-log-in">Log In</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -50,13 +46,173 @@
 
 
 <script>
+    document.addEventListener('deviceready', onDeviceReady, false);
 
+    function onDeviceReady() {
+        console.log('Device is ready');
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+            .then(() => {
+                console.log('Session persistence set');
+                checkAuthState();
+            })
+            .catch((error) => {
+                console.error('Error setting persistence:', error);
+            });
+    }
 
-    document.querySelector('.view-back').addEventListener('click',function(){
-        loadPartialView('home-app',document.querySelector('.init'), false);
-    })
+    function checkAuthState() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('User is authenticated:', user);
+                if (isRegisterPage()) {
+                    // Si el usuario se registra, redirige a la pantalla de inicio de sesión
+                    loadPartialView('log-in', document.querySelector('.init'), false);
+                } else {
+                    loadPartialView('home-inventory', document.querySelector('.init'), false);
+                    showNavBar();
+                }
+            } else {
+                console.log('No authenticated user');
+                if (isRegisterPage()) {
+                    // Si el usuario se registra, redirige a la pantalla de inicio de sesión
+                    loadPartialView('log-in', document.querySelector('.init'), false);
+                } else {
+                    loadPartialView('home-app', document.querySelector('.init'), false);
+                    hideNavBar();
+                }
+            }
+        });
+    }
 
-    document.querySelector('.view-log-in').addEventListener('click',function(){
-        loadPartialView('log-in',document.querySelector('.init'), false);
-    })
+    function isRegisterPage() {
+        return document.getElementById('register-form') !== null;
+    }
+
+    function hideNavBar() {
+        var navBar = document.getElementById("navBar");
+        navBar.style.display = "none";
+    }
+
+    function showNavBar() {
+        var navBar = document.getElementById("navBar");
+        navBar.style.display = "flex";
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPartialView('home-app', document.querySelector('.init'), false);
+        loadPartialView('nav-bar', document.querySelector('.nav-bar'), false);
+        checkAuthState(); // Verifica el estado de autenticación al cargar la página
+    });
+
+    document.querySelector('.view-back').addEventListener('click', function(){
+        loadPartialView('home-app', document.querySelector('.init'), false);
+    });
+
+    document.querySelector('.view-log-in').addEventListener('click', function(){
+        loadPartialView('log-in', document.querySelector('.init'), false);
+    });
+
+    function registerUser(event) {
+        event.preventDefault(); 
+
+        const fullName = document.getElementById('full-name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!validateEmail(email)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar usuario',
+                text: 'Por favor, ingrese un correo electrónico válido.',
+                customClass: {
+                    popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80', 
+                    title: 'font-semibold  text-fc2 text-lg', 
+                    content: 'text-gray-700 text-sm', 
+                }
+            });
+            return; 
+        }
+
+        if (password.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar usuario',
+                text: 'La contraseña debe tener al menos 6 caracteres.',
+                customClass: {
+                    popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80', 
+                    title: 'font-semibold  text-fc2 text-lg', 
+                    content: 'text-gray-700 text-sm', 
+                }
+            });
+            return; 
+        }
+
+        Swal.fire({
+            title: 'Cargando..',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+                const swalElm = Swal.getPopup();
+                swalElm.classList.add('bg-white', 'border', 'border-blue-500', 'rounded-md', 'shadow-lg', 'w-80');
+                const spinner = swalElm.querySelector('.swal2-loader');
+                spinner.style.borderTopColor = '#6A5ACD'; 
+                spinner.style.borderRightColor = '#6A5ACD';
+            }
+        });
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+
+                return db.collection('Usuarios').doc(user.uid).set({
+                    fullName: fullName,
+                    email: email,
+                });
+            })
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registro exitoso',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    customClass: {
+                        popup: 'bg-white border border-green-300 rounded-md shadow-lg w-80', 
+                        title: 'font-semibold  text-fc2 text-lg', 
+                        content: 'text-gray-700 text-sm',
+                    }   
+                }).then(() => {
+                    loadPartialView('log-in', document.querySelector('.init'), false);
+                });
+            })
+            .catch((error) => {
+                let errorMessage = error.message;
+
+                if (errorMessage.includes('auth/email-already-in-use')) {
+                    errorMessage = 'El correo electrónico ya está en uso.';
+                } else if (errorMessage.includes('auth/weak-password')) {
+                    errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
+                } else if (errorMessage.includes('auth/invalid-email')) {
+                    errorMessage = 'Por favor, ingrese un correo electrónico válido.';
+                }
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al registrar usuario',
+                    text: errorMessage,
+                    customClass: {
+                        popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80', 
+                        title: 'font-semibold  text-fc2 text-lg', 
+                        content: 'text-gray-700 text-sm', 
+                    }
+                });
+            });
+    }
+
+    function validateEmail(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
 </script>
+

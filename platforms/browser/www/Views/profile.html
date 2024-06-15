@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
+
+<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+
+    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
+        <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
+        <h3 class="font-bold">Back</h3>
+    </div>
+
+    <div class="w-[85%] m-auto flex flex-col gap-7 ">
+        <div class="flex gap-5 justify-between items-end">
+            <div class="gap-1 flex flex-col">
+                <h3 class="text-fc2 font-bold text-3xl">Account</h3>
+                <div class="flex-grow border-t border-fc3"></div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <div class="p-2 bg-[#EEF2FF] rounded-md m-auto" >
+                <img class="w-16" src="Public/assets/bx-user.svg" alt="" srcset="">
+            </div>
+            
+            <div>
+                <h2 class="text-[#B1C0EA] text-center font-bold">Upload Image</h2>
+            </div>
+        </div>
+       
+
+        <div class="flex flex-col gap-16"> <!--Seccion de form-->
+        
+            <form action="" method="" class="flex flex-col gap-5 m-0">
+                <div>
+                    <span class="view-see-products font-medium text-[#888888]">Full Name</span>
+                    <input type="text"  class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none"  onclick="hideNavBar()" onblur="showNavBar()">
+                </div>
+                <div>
+                    <span class="view-see-products font-medium text-[#888888]">Email Address</span>
+                    <input type="text"  class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none"  onclick="hideNavBar()" onblur="showNavBar()">
+                </div>
+
+                <div>
+                    <span class="view-see-products font-medium text-[#888888]">Password</span>
+                    <input type="password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none"  onclick="hideNavBar()" onblur="showNavBar()">
+
+                </div>
+            </form>
+
+            <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold ">Save And Continue</button>
+        
+        </div>
+
+    </div>
+</div>
+
+<script>  /* partial de nav bar y boton back*/ 
+    document.querySelector('.view-back').addEventListener('click',function(){
+        loadPartialView('home-inventory',document.querySelector('.init'), false);
+    })
+
+    
+</script>

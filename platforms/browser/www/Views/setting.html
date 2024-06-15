@@ -92,8 +92,11 @@
 
 document.querySelector('.logout-button').addEventListener('click', function() {
     firebase.auth().signOut().then(function() {
+      // Cierre de sesión exitoso
+      // Puedes redirigir al usuario a otra página o realizar otras acciones necesarias
       console.log('Sign-out successful.');
     }).catch(function(error) {
+      // Si hay algún error al cerrar sesión, puedes manejarlo aquí
       console.error('Error al cerrar sesión:', error);
     });
   });

@@ -1,52 +1,85 @@
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <!--
-            Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
-                https://cordova.apache.org/docs/en/latest/
-            Some notes:
-                * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-                * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                    * Enable inline JS: add 'unsafe-inline' to default-src
-            -->
-            <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
-            <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-            <link rel="stylesheet" href="./Public/css/tailstyle.css">
-        
-        </head>
-        <body>
-            <div class="init"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="./Public/css/tailstyle.css">
+</head>
+<body>
+    <div class="init"></div>
+    <div id="navBar" class="nav-bar bg-fc3 flex justify-around bottom-0 right-0 fixed w-full py-2"></div>
 
-            <div id="navBar" class="nav-bar bg-fc3 flex justify-around bottom-0  right-0 fixed w-full py-2" >
-            
-            </div>    
-        </body>
-        
+    <script src="Public/js/jquery/dist/jquery.min.js"></script>
+    <script src="Public/js/partialview.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="Public/js/firebaseconfig.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <script src="Public/js/jquery/dist/jquery.min.js"></script>
-        <script src="Public/js/partialview.js"></script>
-        <script src="Public/js/index.js"></script>
-        <script src="Public/js/firebaseconfig.js"></script>
+    <script>
+        document.addEventListener('deviceready', onDeviceReady, false);
 
+        function onDeviceReady() {
+            console.log('Device is ready');
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .then(() => {
+                    console.log('Session persistence set');
+                    checkAuthState();
+                })
+                .catch((error) => {
+                    console.error('Error setting persistence:', error);
+                });
+        }
 
-        
-        <script>
-            loadPartialView('home-app', document.querySelector('.init'), false)
+        function checkAuthState() {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('User is authenticated:', user);
+                    if (isRegisterPage()) {
+                        // Si el usuario se registra, redirige a la pantalla de inicio de sesión
+                        loadPartialView('log-in', document.querySelector('.init'), false);
+                    } else {
+                        loadPartialView('home-inventory', document.querySelector('.init'), false);
+                    }
+                } else {
+                    console.log('No authenticated user');
+                    if (isRegisterPage()) {
+                        // Si el usuario se registra, redirige a la pantalla de inicio de sesión
+                        loadPartialView('log-in', document.querySelector('.init'), false);
+                    } else {
+                        loadPartialView('home-app', document.querySelector('.init'), false);
+                    }
+                }
+            });
+        }
 
-            loadPartialView('nav-bar', document.querySelector('.nav-bar'), false)
+        function isRegisterPage() {
+            return document.getElementById('sign-up') !== null;
+        }
 
+        function hideNavBar() {
+            var navBar = document.getElementById("navBar");
+            navBar.style.display = "none";
+        }
 
-            function hideNavBar() {
-                var navBar = document.getElementById("navBar");
-                navBar.style.display = "none";
-            }
+        function showNavBar() {
+            var navBar = document.getElementById("navBar");
+            navBar.style.display = "flex";
+        }
 
-            function showNavBar() {
-                var navBar = document.getElementById("navBar");
-                navBar.style.display = "flex";
-            }
-        </script>
-        
-        
-    </html>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPartialView('nav-bar', document.querySelector('.nav-bar'), false);
+            checkAuthState(); // Verifica el estado de autenticación al cargar la página
+        });
+
+        document.querySelector('.view-back').addEventListener('click', function(){
+            loadPartialView('home-app', document.querySelector('.init'), false);
+        });
+
+        document.querySelector('.view-log-in').addEventListener('click', function(){
+            loadPartialView('log-in', document.querySelector('.init'), false);
+        });
+    </script>
+</body>
+</html>
