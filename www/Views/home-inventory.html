@@ -19,42 +19,7 @@
         <p class="view-see-products font-bold text-[#888888]">See All</p>
     </div>
 
-    <div class="w-4/5 m-auto flex flex-col gap-4 overflow-y-auto">
-        <div class="w-full bg-[#eef2ff] flex p-3 rounded-xl gap-4 ">
-            <div class="w-1/5 bg-white rounded-2xl items-center flex ">
-                <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png">
-            </div>
-            <div>
-                <h3 class="text-[#333333] font-medium">HDMI Cable</h3>
-                <p class="text-[#33333] text-xs">Date: 14/5/24</p>
-                <p class="text-[#33333] text-xs">Qty: 5</p>
-            </div>
-        </div>
-
-        <div class="w-full bg-[#eef2ff] flex p-3 rounded-xl gap-4 ">
-            <div class="w-1/5 bg-white rounded-2xl items-center flex ">
-                <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png">
-            </div>
-            <div>
-                <h3 class="text-[#333333] font-medium">HDMI Cable</h3>
-                <p class="text-[#33333] text-xs">Date: 14/5/24</p>
-                <p class="text-[#33333] text-xs">Qty: 5</p>
-            </div>
-        </div>
-
-        <div class="w-full bg-[#eef2ff] flex p-3 rounded-xl gap-4 ">
-            <div class="w-1/5 bg-white rounded-2xl items-center flex ">
-                <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png">
-            </div>
-            <div>
-                <h3 class="text-[#333333] font-medium">HDMI Cable</h3>
-                <p class="text-[#33333] text-xs">Date: 14/5/24</p>
-                <p class="text-[#33333] text-xs">Qty: 5</p>
-            </div>
-        </div>
-    </div>
-
-
+    <div id="recent-products-container" class="w-4/5 m-auto flex flex-col gap-4 overflow-y-auto"></div>
 </div>
 
 <script>  
@@ -111,4 +76,60 @@ firebase.auth().onAuthStateChanged(function(user) {
 document.querySelector('.view-see-products').addEventListener('click',function(){
 loadPartialView('products',document.querySelector('.init'), false);
 })
+</script>
+
+<script>
+    function showRecentProducts() {
+        const user = auth.currentUser;
+
+        if (user) {
+            const recentProductsContainer = document.getElementById('recent-products-container');
+
+            db.collection('Usuarios').doc(user.uid).collection('Products')
+                .orderBy('createdAt', 'desc')
+                .limit(5)
+                .onSnapshot(snapshot => {
+                    recentProductsContainer.innerHTML = ""; // Limpiar el contenedor antes de mostrar los nuevos productos
+                    snapshot.forEach(doc => {
+                        const productData = doc.data();
+                        const productName = productData.itemName;
+                        const productImage = productData.image;
+                        const productDate = productData.date;
+                        const productQuantity = productData.quantity;
+
+                        // Crear la tarjeta del producto
+                        const productCard = document.createElement('div');
+                        productCard.classList.add('w-full', 'bg-[#eef2ff]', 'flex', 'p-3', 'rounded-xl', 'gap-4');
+
+                        productCard.innerHTML = `
+                            <div class="w-1/5 bg-white rounded-2xl items-center flex">
+                                <img src="${productImage}" alt="${productName}">
+                            </div>
+                            <div>
+                                <h3 class="text-[#333333] font-medium">${productName}</h3>
+                                <p class="text-[#333333] text-xs">Date: ${productDate}</p>
+                                <p class="text-[#333333] text-xs">Qty: ${productQuantity}</p>
+                            </div>
+                        `;
+
+                        // Agregar la tarjeta del producto al contenedor de productos recientes
+                        recentProductsContainer.appendChild(productCard);
+                    });
+
+                    // Mostrar una imagen cuando no hay productos recientes
+                    if (snapshot.empty) {
+                        recentProductsContainer.innerHTML = `
+                            <div class="flex justify-center items-center">
+                                <img src="Public/assets/QR_code_for_mobile_English_Wikipedia.svg.png" alt="No items" class="w-1/2">
+                            </div>
+                        `;
+                    }
+                });
+        } else {
+            console.log('No user is signed in');
+        }
+    }
+
+    // Llamar a la función para mostrar los productos recientes
+    showRecentProducts();
 </script>

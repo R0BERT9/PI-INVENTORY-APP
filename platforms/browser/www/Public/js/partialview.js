@@ -1,5 +1,5 @@
 function loadPartialView(viewName, divClass = null, isAppend = false){
-    var showNavBarViews = ['home-inventory', 'products', 'profile', 'setting']; // Lista de vistas en las que se mostrará el nav-bar
+    var showNavBarViews = ['home-inventory', 'products', 'setting']; // Lista de vistas en las que se mostrará el nav-bar
     
     $.ajax({
         url: 'Views/' + viewName + '.html',

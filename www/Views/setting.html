@@ -91,13 +91,43 @@
 <script>  /* partial de nav bar y boton back*/ 
 
 document.querySelector('.logout-button').addEventListener('click', function() {
-    firebase.auth().signOut().then(function() {
-      console.log('Sign-out successful.');
-    }).catch(function(error) {
-      console.error('Error al cerrar sesión:', error);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Quieres cerrar sesión?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#6A5ACD',
+      cancelButtonColor: '#6A5ACD',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        popup: 'bg-white border border-gray-200 rounded-md shadow-lg w-80',
+        title: 'font-semibold text-fc2 text-lg',
+        content: 'text-gray-700 text-sm',
+        confirmButton: 'bg-purple-600 text-white hover:bg-purple-700',
+        cancelButton: 'text-purple-600 border border-purple-600 hover:bg-white'
+      },
+      width: 'w-80',
+      padding: '2em',
+      background: '#F3F4F6',
+      backdrop: `
+        rgba(0,0,0,0.4)
+        url('https://sweetalert2.github.io/images/nyan-cat.gif')
+        left top
+        no-repeat
+      `
+    }).then((result) => {
+      if (result.isConfirmed) {
+        firebase.auth().signOut().then(function() {
+          console.log('Sign-out successful.');
+        }).catch(function(error) {
+          console.error('Error al cerrar sesión:', error);
+        });
+      }
     });
   });
 
+  
     document.querySelector('.view-back').addEventListener('click',function(){
         loadPartialView('home-inventory',document.querySelector('.init'), false);
     })

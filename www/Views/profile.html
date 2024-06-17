@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/www/Public/css/tailstyle.css">
 
-<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">
 
-    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
-        <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
+    <div class="flex gap-2 view-back">
+        <button><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
         <h3 class="font-bold">Back</h3>
     </div>
 
-    <div class="w-[85%] m-auto flex flex-col gap-7 ">
+    <div class="w-[85%] m-auto flex flex-col gap-7">
         <div class="flex gap-5 justify-between items-end">
             <div class="gap-1 flex flex-col">
                 <h3 class="text-fc2 font-bold text-3xl">Account</h3>
@@ -16,46 +16,155 @@
         </div>
 
         <div class="flex flex-col gap-1">
-            <div class="p-2 bg-[#EEF2FF] rounded-md m-auto" >
-                <img class="w-16" src="Public/assets/bx-user.svg" alt="" srcset="">
-            </div>
-            
-            <div>
-                <h2 class="text-[#B1C0EA] text-center font-bold">Upload Image</h2>
+            <div class="p-2 bg-[#EEF2FF] rounded-md m-auto">
+                <img class="w-16" src="Public/assets/bx-user.svg" alt="">
             </div>
         </div>
-       
 
-        <div class="flex flex-col gap-16"> <!--Seccion de form-->
-        
-            <form action="" method="" class="flex flex-col gap-5 m-0">
+        <div class="flex flex-col gap-12">
+            <form id="profile-form" class="flex flex-col gap-5 m-0">
                 <div>
                     <span class="view-see-products font-medium text-[#888888]">Full Name</span>
-                    <input type="text"  class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none"  onclick="hideNavBar()" onblur="showNavBar()">
+                    <input id="full-name" type="text" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()" onblur="showNavBar()">
                 </div>
                 <div>
                     <span class="view-see-products font-medium text-[#888888]">Email Address</span>
-                    <input type="text"  class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none"  onclick="hideNavBar()" onblur="showNavBar()">
+                    <input id="email-address" type="text" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" readonly>
                 </div>
-
                 <div>
-                    <span class="view-see-products font-medium text-[#888888]">Password</span>
-                    <input type="password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none"  onclick="hideNavBar()" onblur="showNavBar()">
-
+                    <span class="view-see-products font-medium text-[#888888]">Current Password</span>
+                    <input id="current-password" type="password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()" onblur="showNavBar()">
+                </div>
+                <div>
+                    <span class="view-see-products font-medium text-[#888888]">New Password</span>
+                    <input id="new-password" type="password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()" onblur="showNavBar()">
                 </div>
             </form>
-
-            <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold ">Save And Continue</button>
-        
+            <button id="save-button" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold">Save And Continue</button>
         </div>
-
     </div>
 </div>
 
-<script>  /* partial de nav bar y boton back*/ 
-    document.querySelector('.view-back').addEventListener('click',function(){
-        loadPartialView('home-inventory',document.querySelector('.init'), false);
-    })
+<script>
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        const userDocRef = db.collection('Usuarios').doc(user.uid);
+        userDocRef.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                document.getElementById('full-name').value = data.fullName || '';
+                document.getElementById('email-address').value = user.email;
+            } else {
+                console.log('No such document!');
+            }
+        }).catch((error) => {
+            console.error('Error getting document:', error);
+        });
+    } else {
+        console.log('No user is signed in.');
+    }
+});
 
-    
+// Manejar la navegación de vuelta
+document.querySelector('.view-back').addEventListener('click', function() {
+    loadPartialView('setting', document.querySelector('.init'), false);
+});
+
+// Manejar la actualización del perfil y la contraseña
+document.getElementById('save-button').addEventListener('click', function() {
+    const user = firebase.auth().currentUser;
+    const newPassword = document.getElementById('new-password').value;
+    const currentPassword = document.getElementById('current-password').value;
+    const fullName = document.getElementById('full-name').value;
+
+    if (user) {
+        // Verificar si hay cambios
+        if (!newPassword && !currentPassword && !fullName) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'No hay cambios',
+                text: 'No se ha realizado ningún cambio.',
+            });
+            return;
+        }
+
+        // Mostrar alerta de confirmación
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres cambiar los datos?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#6A5ACD',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cambiar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Cambiando datos...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Volver a autenticar al usuario
+                const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+                user.reauthenticateWithCredential(credential).then(function() {
+                    const promises = [];
+
+                    // Actualizar el nombre completo en Auth y Firestore
+                    if (fullName) {
+                        promises.push(user.updateProfile({
+                            displayName: fullName
+                        }).then(function() {
+                            const userDocRef = db.collection('Usuarios').doc(user.uid);
+                            return userDocRef.update({
+                                fullName: fullName
+                            });
+                        }));
+                    }
+
+                    // Actualizar la contraseña
+                    if (newPassword) {
+                        promises.push(user.updatePassword(newPassword));
+                    }
+
+                    // Ejecutar todas las promesas
+                    Promise.all(promises).then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Datos actualizados',
+                            text: 'Los datos se han actualizado correctamente.',
+                        });
+                    }).catch((error) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error al actualizar los datos.',
+                        });
+                        console.error('Error al actualizar los datos:', error);
+                    });
+                }).catch(function(error) {
+                    if (error.code === 'auth/too-many-requests') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Demasiadas solicitudes',
+                            text: 'Debido a actividad inusual, hemos bloqueado las solicitudes desde este dispositivo. Inténtalo de nuevo más tarde o solicita un correo electrónico de verificación.',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al autenticar. Por favor, revisa los datos.',
+                        });
+                    }
+                    console.error('Error al volver a autenticar:', error);
+                });
+            }
+        });
+    }
+});
 </script>
+

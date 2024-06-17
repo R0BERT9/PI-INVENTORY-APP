@@ -14,92 +14,338 @@
                 <div class="flex-grow border-t border-fc3"></div>
             </div>
             <div>
-                <p class="font-bold text-[#888888]">Add Products</p>
+                <button class="font-bold text-[#888888]" id="add-products-button">Add Products</button>
             </div>
         </div>
     </div>
 
-    <div class="w-[90%] m-auto flex flex-col gap-4 overflow-y-auto mb-20">  <!--Container principal de producto-->
-        <div class="w-full bg-[#eef2ff] flex p-2 rounded-xl"> <!--PRODUCTO-->
-            
-            <div class="bg-white rounded-2xl items-center flex w-1/4">
-                <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png" alt="" srcset="">
-            </div>
-
-            <div class="p-2 gap-2 flex flex-col w-1/2">
-                <h2 class=" text-[#333333] font-medium">HDMI Cable</h2>
-                <p class="text-[#757575] text-xs">Qty: 1</p>
-            </div>
-
-
-            <div class="flex flex-col gap-4 w-1/4">
-                <div class="flex justify-end">
-                    <button><img class="w-7" src="Public/assets/bx-x.svg" alt=""></button>
-                </div>
-                <div class="flex items-center justify-center gap-1">
-                    <button><img src="Public/assets/bxs-plus-square.svg" alt=""></button>
-                    <span>1</span>
-                    <button><img src="Public/assets/bxs-minus-square.svg"></button>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="w-full bg-[#eef2ff] flex p-2 rounded-xl"> <!--PRODUCTO-->
-            
-            <div class="bg-white rounded-2xl items-center flex w-1/4">
-                <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png" alt="" srcset="">
-            </div>
-
-            <div class="p-2 gap-2 flex flex-col w-1/2">
-                <h2 class=" text-[#333333] font-medium">HDMI Cable</h2>
-                <p class="text-[#757575] text-xs">Qty: 1</p>
-            </div>
-
-
-            <div class="flex flex-col gap-4 w-1/4">
-                <div class="flex justify-end">
-                    <button><img class="w-7" src="Public/assets/bx-x.svg" alt=""></button>
-                </div>
-                <div class="flex items-center justify-center gap-1">
-                    <button><img src="Public/assets/bxs-plus-square.svg" alt=""></button>
-                    <span>1</span>
-                    <button><img src="Public/assets/bxs-minus-square.svg"></button>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="w-full bg-[#eef2ff] flex p-2 rounded-xl"> <!--PRODUCTO-->
-            
-            <div class="bg-white rounded-2xl items-center flex w-1/4">
-                <img src="Public/assets/SubCategory_Cable_HDMI_True-4K60Hz_NoPadding.png" alt="" srcset="">
-            </div>
-
-            <div class="p-2 gap-2 flex flex-col w-1/2">
-                <h2 class=" text-[#333333] font-medium">HDMI Cable</h2>
-                <p class="text-[#757575] text-xs">Qty: 1</p>
-            </div>
-
-
-            <div class="flex flex-col gap-4 w-1/4">
-                <div class="flex justify-end">
-                    <button><img class="w-7" src="Public/assets/bx-x.svg" alt=""></button>
-                </div>
-                <div class="flex items-center justify-center gap-1">
-                    <button><img src="Public/assets/bxs-plus-square.svg" alt=""></button>
-                    <span>1</span>
-                    <button><img src="Public/assets/bxs-minus-square.svg"></button>
-                </div>
-
-            </div>
-        </div>
+   
+    <div id="products-container" class="w-[90%] m-auto flex flex-col gap-4 overflow-y-auto mb-20">  <!--Container principal de producto-->
+        <!-- Aquí se mostrarán los productos -->
     </div>
+    
 
 </div>
 
+<div id="add-products-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
+    <div class="bg-white w-11/12 py-5 rounded-lg flex gap-6 flex-col">
+        <div class="w-11/12 m-auto flex justify-center items-center">
+            <div class="justify-start flex relative">
+                <button id="close-modal"><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
+            </div>
+            <div class="flex justify-center w-[80%]">
+                <h2 class="text-fc2 font-bold text-3xl text-center">Add Product</h2>
+            </div>
+        </div>
+
+        <form id="product-form" class="w-10/12 m-auto gap-3 flex flex-col">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Item Name" id="itemName">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Description" id="description">
+            <div class="flex gap-4">
+                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF]" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
+                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Qty" id="quantity"> 
+            </div>
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Location" id="location">
+            <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
+                <input class="opacity-0 w-full h-full z-50" type="file" id="image">
+                <img class="absolute w-40" src="Public/assets/bx-image.svg" alt="">
+            </div>
+            <div class="w-full">
+                <button type="submit" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Add Product</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<div id="qr-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
+    <div class="bg-white w-11/12 py-5 rounded-lg flex gap-6 flex-col">
+        <div class="w-11/12 m-auto flex justify-center items-center">
+            <div class="justify-start flex relative">
+                <button id="close-qr-modal"><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
+            </div>
+            <div class="flex justify-center w-[80%]">
+                <h2 class="text-fc2 font-bold text-3xl text-center">Your QR Code</h2>
+            </div>
+        </div>
+        <div class="qr-code-container flex justify-center items-center">
+            <!-- QR Code will be inserted here -->
+        </div>
+        <div class="w-11/12 m-auto">
+            <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Save QR</button>
+        </div>
+    </div>
+</div>
+
 <script>  /* partial de nav bar y boton back*/
+        document.getElementById('add-products-button').addEventListener('click', function() {
+            document.getElementById('add-products-modal').classList.remove('hidden');
+            hideNavBar();
+        });
+
+        document.getElementById('close-modal').addEventListener('click', function() {
+            document.getElementById('add-products-modal').classList.add('hidden');
+            showNavBar();
+        });
+
+
     document.querySelector('.view-back').addEventListener('click',function(){
         loadPartialView('home-inventory',document.querySelector('.init'), false);
     })
+</script>
+
+
+<script> //enviar informacion a la base 
+    document.getElementById('product-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const user = auth.currentUser;
+
+        if (user) {
+            const itemName = document.getElementById('itemName').value;
+            const description = document.getElementById('description').value;
+            const date = document.getElementById('dateInput').value;
+            const quantity = document.getElementById('quantity').value;
+            const location = document.getElementById('location').value;
+            const imageFile = document.getElementById('image').files[0];
+
+            if (!itemName || !description || !date || !quantity || !location || !imageFile) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Necesitas llenar todos los campos!',
+                    customClass: {
+                        popup: 'w-80'
+                    }
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Loading...',
+                html: 'Obteniendo QR',
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            let imageUrl = "";
+            try {
+                const storageRef = firebase.storage().ref();
+                const imageRef = storageRef.child('images/' + imageFile.name);
+                await imageRef.put(imageFile);
+                imageUrl = await imageRef.getDownloadURL();
+            } catch (error) {
+                console.error("Error uploading image:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error subiendo la imagen.',
+                    customClass: {
+                        popup: 'w-80'
+                    }
+                });
+                return;
+            }
+
+            try {
+                const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
+                    itemName,
+                    description,
+                    date,
+                    quantity,
+                    location,
+                    image: imageUrl,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                const productURL = `https://yourdomain.com/product/${productRef.id}`;
+                const qrCodeContainer = document.querySelector('.qr-code-container');
+
+                QRCode.toDataURL(productURL, function (err, url) {
+                    if (err) {
+                        console.error(err);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Error generando QR code!',
+                            customClass: {
+                                popup: 'w-80'
+                            }
+                        });
+                        return;
+                    }
+                    Swal.close();
+
+                    qrCodeContainer.innerHTML = `<img src="${url}">`;
+                    document.getElementById('qr-modal').classList.remove('hidden');
+
+                    showProducts();
+                });
+            } catch (error) {
+                console.error("Error adding product:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error adding product. Please try again!',
+                    customClass: {
+                        popup: 'w-80'
+                    }
+                });
+            }
+        } else {
+            console.log('No user is signed in');
+        }
+    });
+
+    document.getElementById('close-qr-modal').addEventListener('click', function() {
+        document.getElementById('qr-modal').classList.add('hidden');
+        showNavBar();
+    });
+</script>
+
+
+
+<script>
+    function showProducts() {
+    const user = auth.currentUser;
+
+    if (user) {
+        const productsContainer = document.getElementById('products-container');
+
+        const unsubscribe = db.collection('Usuarios').doc(user.uid).collection('Products').onSnapshot(snapshot => {
+            productsContainer.innerHTML = ""; 
+            snapshot.forEach(doc => {
+                const productData = doc.data();
+                const productId = doc.id; // ID del producto
+                const productName = productData.itemName;
+                const productImage = productData.image;
+                let productQuantity = productData.quantity;
+
+                const productCard = document.createElement('div');
+                productCard.classList.add('w-full', 'bg-[#eef2ff]', 'flex', 'p-2', 'rounded-xl');
+                productCard.setAttribute('data-product-id', productId); 
+
+                productCard.innerHTML = `
+                    <div class="bg-white rounded-2xl items-center flex w-1/4">
+                        <img src="${productImage}" alt="${productName}" srcset="">
+                    </div>
+
+                    <div class="p-2 gap-2 flex flex-col w-1/2">
+                        <h2 class="text-[#333333] font-medium">${productName}</h2>
+                        <p class="text-[#757575] text-xs">Qty: ${productQuantity}</p>
+                    </div>
+
+                    <div class="flex flex-col gap-4 w-1/4">
+                        <div class="flex justify-end">
+                            <button class="delete-product" data-product-id="${productId}"><img class="w-7" src="Public/assets/bx-x.svg"></button>
+                        </div>
+                        <div class="flex items-center justify-center gap-1">
+                            <button class="increment-quantity" data-product-id="${productId}"><img src="Public/assets/bxs-plus-square.svg"></button>
+                            <span>${productQuantity}</span>
+                            <button class="decrement-quantity" data-product-id="${productId}"><img src="Public/assets/bxs-minus-square.svg"></button>
+                        </div>
+                    </div>
+                `;
+
+                productsContainer.appendChild(productCard);
+            });
+            const deleteButtons = document.querySelectorAll('.delete-product');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const productId = button.getAttribute('data-product-id');
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¡No podrás revertir esto!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Borrar',
+                            cancelButtonText: 'Cancelar',
+                            customClass: {
+                                popup: 'w-80'
+                            }
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                await db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId).delete();
+                                
+                                const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+                                if (productCard) {
+                                    productCard.remove();
+                                }
+
+                                Swal.fire(
+                                    '¡ELiminado!',
+                                    'Tu producto ha sido eliminado.',
+                                    'success'
+                                );
+                            }
+                        });
+                    });
+                });
+            const incrementButtons = document.querySelectorAll('.increment-quantity');
+            incrementButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const productId = button.getAttribute('data-product-id');
+                    const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
+
+                    await db.runTransaction(async (transaction) => {
+                        const doc = await transaction.get(productRef);
+                        if (!doc.exists) {
+                            throw "Document does not exist!";
+                        }
+
+                        let currentQuantity = parseInt(doc.data().quantity); 
+                        const newQuantity = currentQuantity + 1;
+                        transaction.update(productRef, { quantity: newQuantity });
+                    });
+                });
+            });
+
+            const decrementButtons = document.querySelectorAll('.decrement-quantity');
+            decrementButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const productId = button.getAttribute('data-product-id');
+                    const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
+
+                    await db.runTransaction(async (transaction) => {
+                        const doc = await transaction.get(productRef);
+                        if (!doc.exists) {
+                            throw "Document does not exist!";
+                        }
+
+                        let currentQuantity = parseInt(doc.data().quantity); 
+                        if (currentQuantity > 1) {
+                            const newQuantity = currentQuantity - 1;
+                            transaction.update(productRef, { quantity: newQuantity });
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Oops...',
+                                text: 'La cantidad no puede ser menor que 1!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                });
+            });
+        });
+
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === 'hidden') {
+                unsubscribe(); // Detener el listener
+            }
+        });
+    } else {
+        console.log('No user is signed in');
+    }
+}
+
+showProducts();
+    
 </script>
