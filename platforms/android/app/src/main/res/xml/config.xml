@@ -15,10 +15,6 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    <config-file parent="/*" target="AndroidManifest.xml">
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    </config-file>
     <preference name="loglevel" value="DEBUG" />
     <preference name="android:windowSoftInputMode" value="adjustNothing" />
 </widget>

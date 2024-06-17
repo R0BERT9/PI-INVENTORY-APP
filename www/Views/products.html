@@ -39,13 +39,13 @@
         </div>
 
         <form id="product-form" class="w-10/12 m-auto gap-3 flex flex-col">
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Item Name" id="itemName">
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Description" id="description">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Item Name" id="itemName">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Description" id="description">
             <div class="flex gap-4">
-                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF]" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
-                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Qty" id="quantity"> 
+                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF] focus:outline-none" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
+                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Qty" id="quantity"> 
             </div>
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Location" id="location">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Location" id="location">
             <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
                 <input class="opacity-0 w-full h-full z-50" type="file" id="image">
                 <img class="absolute w-40" src="Public/assets/bx-image.svg" alt="">
@@ -56,9 +56,6 @@
         </form>
     </div>
 </div>
-
-
-
 
 <div id="qr-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
     <div class="bg-white w-11/12 py-5 rounded-lg flex gap-6 flex-col">
