@@ -65,12 +65,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
 });
 
-// Manejar la navegación de vuelta
 document.querySelector('.view-back').addEventListener('click', function() {
     loadPartialView('setting', document.querySelector('.init'), false);
 });
 
-// Manejar la actualización del perfil y la contraseña
 document.getElementById('save-button').addEventListener('click', function() {
     const user = firebase.auth().currentUser;
     const newPassword = document.getElementById('new-password').value;
@@ -78,7 +76,6 @@ document.getElementById('save-button').addEventListener('click', function() {
     const fullName = document.getElementById('full-name').value;
 
     if (user) {
-        // Verificar si hay cambios
         if (!newPassword && !currentPassword && !fullName) {
             Swal.fire({
                 icon: 'warning',
@@ -88,7 +85,6 @@ document.getElementById('save-button').addEventListener('click', function() {
             return;
         }
 
-        // Mostrar alerta de confirmación
         Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Quieres cambiar los datos?',
@@ -109,12 +105,10 @@ document.getElementById('save-button').addEventListener('click', function() {
                     }
                 });
 
-                // Volver a autenticar al usuario
                 const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
                 user.reauthenticateWithCredential(credential).then(function() {
                     const promises = [];
 
-                    // Actualizar el nombre completo en Auth y Firestore
                     if (fullName) {
                         promises.push(user.updateProfile({
                             displayName: fullName
@@ -126,7 +120,6 @@ document.getElementById('save-button').addEventListener('click', function() {
                         }));
                     }
 
-                    // Actualizar la contraseña
                     if (newPassword) {
                         promises.push(user.updatePassword(newPassword));
                     }
