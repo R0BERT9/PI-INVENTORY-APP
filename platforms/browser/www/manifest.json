@@ -6,6 +6,12 @@
   "version": "io.cordova.hellocordova",
   "description": "Sample Apache Cordova App",
   "author": "Apache Cordova Team",
-  "icons": [],
+  "icons": [
+    {
+      "src": "www/Public/assets/QR_code_for_mobile_English_Wikipedia.svg.png",
+      "type": "image/png",
+      "sizes": "57x57"
+    }
+  ],
   "start_url": "index.html"
 }

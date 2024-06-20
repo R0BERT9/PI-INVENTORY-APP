@@ -39,13 +39,17 @@
         </div>
 
         <form id="product-form" class="w-10/12 m-auto gap-3 flex flex-col">
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Item Name" id="itemName">
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Description" id="description">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Item Name" id="itemName">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Description" id="description">
             <div class="flex gap-4">
-                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF]" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
-                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Qty" id="quantity"> 
+                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF] focus:outline-none" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
+                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Qty" id="quantity"> 
             </div>
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md" type="text" placeholder="Location" id="location">
+
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Location" id="location">
+            <button type="button" id="getCoordinatesBtn"  onclick="obtenerGeolocalizacion()"  class="bg-fc2 text-white px-4 py-2 rounded-md">Obtener Coordenadas</button>
+            
+
             <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
                 <input class="opacity-0 w-full h-full z-50" type="file" id="image">
                 <img class="absolute w-40" src="Public/assets/bx-image.svg" alt="">
@@ -54,10 +58,9 @@
                 <button type="submit" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Add Product</button>
             </div>
         </form>
+        
     </div>
 </div>
-
-
 
 
 <div id="qr-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
@@ -96,118 +99,128 @@
     })
 </script>
 
+<script>
+// Escuchar el evento de envío del formulario
+document.getElementById('product-form').addEventListener('submit', async function(e) {
+    e.preventDefault(); // Evitar el comportamiento predeterminado de envío del formulario
 
-<script> //enviar informacion a la base 
-    document.getElementById('product-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    // Obtener el usuario autenticado
+    const user = auth.currentUser;
 
-        const user = auth.currentUser;
+    // Verificar si hay un usuario autenticado
+    if (user) {
+        // Obtener los valores de los campos del formulario
+        const itemName = document.getElementById('itemName').value;
+        const description = document.getElementById('description').value;
+        const date = document.getElementById('dateInput').value;
+        const quantity = document.getElementById('quantity').value;
+        const location = document.getElementById('location').value;
+        const imageFile = document.getElementById('image').files[0];
 
-        if (user) {
-            const itemName = document.getElementById('itemName').value;
-            const description = document.getElementById('description').value;
-            const date = document.getElementById('dateInput').value;
-            const quantity = document.getElementById('quantity').value;
-            const location = document.getElementById('location').value;
-            const imageFile = document.getElementById('image').files[0];
-
-            if (!itemName || !description || !date || !quantity || !location || !imageFile) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Necesitas llenar todos los campos!',
-                    customClass: {
-                        popup: 'w-80'
-                    }
-                });
-                return;
-            }
-
+        // Validar que todos los campos estén llenos
+        if (!itemName || !description || !date || !quantity || !location || !imageFile) {
             Swal.fire({
-                title: 'Loading...',
-                html: 'Obteniendo QR',
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Necesitas llenar todos los campos!',
+                customClass: {
+                    popup: 'w-80'
                 }
             });
-
-            let imageUrl = "";
-            try {
-                const storageRef = firebase.storage().ref();
-                const imageRef = storageRef.child('images/' + imageFile.name);
-                await imageRef.put(imageFile);
-                imageUrl = await imageRef.getDownloadURL();
-            } catch (error) {
-                console.error("Error uploading image:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error subiendo la imagen.',
-                    customClass: {
-                        popup: 'w-80'
-                    }
-                });
-                return;
-            }
-
-            try {
-                const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
-                    itemName,
-                    description,
-                    date,
-                    quantity,
-                    location,
-                    image: imageUrl,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                const productURL = `https://yourdomain.com/product/${productRef.id}`;
-                const qrCodeContainer = document.querySelector('.qr-code-container');
-
-                QRCode.toDataURL(productURL, function (err, url) {
-                    if (err) {
-                        console.error(err);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Error generando QR code!',
-                            customClass: {
-                                popup: 'w-80'
-                            }
-                        });
-                        return;
-                    }
-                    Swal.close();
-
-                    qrCodeContainer.innerHTML = `<img src="${url}">`;
-                    document.getElementById('qr-modal').classList.remove('hidden');
-
-                    showProducts();
-                });
-            } catch (error) {
-                console.error("Error adding product:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error adding product. Please try again!',
-                    customClass: {
-                        popup: 'w-80'
-                    }
-                });
-            }
-        } else {
-            console.log('No user is signed in');
+            return;
         }
-    });
 
-    document.getElementById('close-qr-modal').addEventListener('click', function() {
-        document.getElementById('qr-modal').classList.add('hidden');
-        showNavBar();
-    });
+        // Mostrar un mensaje de carga mientras se sube la imagen
+        Swal.fire({
+            title: 'Loading...',
+            html: 'Subiendo imagen...',
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // Subir la imagen a Firebase Storage
+        let imageUrl = "";
+        try {
+            const storageRef = firebase.storage().ref();
+            const imageRef = storageRef.child('images/' + imageFile.name);
+            await imageRef.put(imageFile);
+            imageUrl = await imageRef.getDownloadURL();
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error subiendo la imagen.',
+                customClass: {
+                    popup: 'w-80'
+                }
+            });
+            return;
+        }
+
+        // Añadir el producto a Firestore
+        try {
+            const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
+                itemName,
+                description,
+                date,
+                quantity,
+                location,
+                image: imageUrl,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            // Generar la URL del producto para el código QR
+            const productURL = `https://yourdomain.com/product/${productRef.id}`;
+
+            // Mostrar el código QR
+            QRCode.toDataURL(productURL, function (err, url) {
+                if (err) {
+                    console.error(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error generando QR code!',
+                        customClass: {
+                            popup: 'w-80'
+                        }
+                    });
+                    return;
+                }
+                Swal.close();
+                // Mostrar el código QR generado
+                const qrCodeContainer = document.querySelector('.qr-code-container');
+                qrCodeContainer.innerHTML = `<img src="${url}">`;
+                document.getElementById('qr-modal').classList.remove('hidden');
+
+                // Mostrar los productos actualizados
+                showProducts();
+            });
+        } catch (error) {
+            console.error("Error adding product:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error adding product. Please try again!',
+                customClass: {
+                    popup: 'w-80'
+                }
+            });
+        }
+    } else {
+        console.log('No user is signed in');
+    }
+});
+
+
+// Manejar el clic en el botón para cerrar el modal del código QR
+document.getElementById('close-qr-modal').addEventListener('click', function() {
+    document.getElementById('qr-modal').classList.add('hidden');
+    showNavBar(); // Función para mostrar la barra de navegación (asumo que la tienes definida)
+});
 </script>
-
-
 
 <script>
     function showProducts() {
@@ -349,3 +362,21 @@
 showProducts();
     
 </script>
+
+<script>function obtenerGeolocalizacion() {
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+}
+
+// Función que se ejecuta si se obtiene la geolocalización exitosamente
+function onSuccess(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    // Mostrar las coordenadas en una alerta
+    alert('Latitud: ' + latitude + '\nLongitud: ' + longitude);
+}
+
+// Función que se ejecuta si hay un error al obtener la geolocalización
+function onError(error) {
+    alert('Error al obtener la geolocalización: ' + error.message);
+}</script>

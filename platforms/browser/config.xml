@@ -8,5 +8,6 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <icon density="mdpi" height="57" platform="android" src="www/Public/assets/QR_code_for_mobile_English_Wikipedia.svg.png" width="57" />
     <preference name="android:windowSoftInputMode" value="adjustNothing" />
 </widget>

@@ -10,7 +10,8 @@
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-keyboard": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

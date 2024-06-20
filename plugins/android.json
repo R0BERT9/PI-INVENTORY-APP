@@ -7,7 +7,8 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-keyboard": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-splashscreen": {

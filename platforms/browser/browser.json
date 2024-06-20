@@ -10,7 +10,8 @@
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-keyboard": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
@@ -29,18 +30,10 @@
       "clobbers": [
         "navigator.splashscreen"
       ]
-    },
-    {
-      "file": "plugins/cordova-plugin-keyboard/www/keyboard.js",
-      "id": "cordova-plugin-keyboard.keyboard",
-      "pluginId": "cordova-plugin-keyboard",
-      "clobbers": [
-        "window.Keyboard"
-      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-splashscreen": "6.0.1",
-    "cordova-plugin-keyboard": "1.2.0"
+    "cordova-plugin-geolocation": "5.0.0"
   }
 }

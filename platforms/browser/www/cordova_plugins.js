@@ -21,13 +21,23 @@ module.exports = [
         "clobbers": [
             "window.Keyboard"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-android-permissions/www/permissions-dummy.js",
+        "id": "cordova-plugin-android-permissions.Permissions",
+        "pluginId": "cordova-plugin-android-permissions",
+        "clobbers": [
+            "cordova.plugins.permissions"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-splashscreen": "6.0.1",
-    "cordova-plugin-keyboard": "1.2.0"
+    "cordova-plugin-keyboard": "1.2.0",
+    "cordova-plugin-geolocation": "5.0.0",
+    "cordova-plugin-android-permissions": "1.1.5"
 }
 // BOTTOM OF METADATA
 });
