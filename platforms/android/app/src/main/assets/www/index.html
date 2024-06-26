@@ -21,32 +21,6 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <!-- <script>
-        // Esperar a que el dispositivo esté listo
-        document.addEventListener("deviceready", function() {
-            obtenerGeolocalizacion();
-        }, false);
-
-        // Función para obtener la geolocalización
-        function obtenerGeolocalizacion() {
-            navigator.geolocation.getCurrentPosition(onSuccess, onError);
-        }
-
-        // Función que se ejecuta si se obtiene la geolocalización exitosamente
-        function onSuccess(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-
-            // Mostrar las coordenadas en una alerta
-            alert('Latitud: ' + latitude + '\nLongitud: ' + longitude);
-        }
-
-        // Función que se ejecuta si hay un error al obtener la geolocalización
-        function onError(error) {
-            alert('Error al obtener la geolocalización: ' + error.message);
-        }
-    </script> -->
-
     <script>
         document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -111,4 +85,3 @@
     </script>
 </body>
 </html>
-

@@ -51,7 +51,7 @@
             
 
             <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
-                <input class="opacity-0 w-full h-full z-50" type="file" id="image">
+                <input type="file" id="image" accept="image/*" capture="camera" class="opacity-0 w-full h-full z-50" onchange="mostrarImagen(this)">
                 <img class="absolute w-40" src="Public/assets/bx-image.svg" alt="">
             </div>
             <div class="w-full">
@@ -100,8 +100,60 @@
 </script>
 
 <script>
+    function obtenerGeolocalizacion() {
+    Swal.fire({
+        title: 'Obteniendo ubicación...',
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    const alertTimeout = setTimeout(function() {
+        Swal.close();
+    }, 4000); // 4000 milisegundos = 4 segundos
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+        onSuccess(position);
+        clearTimeout(alertTimeout); 
+    }, function(error) {
+        onError(error);
+        clearTimeout(alertTimeout);
+    });
+}
+
+function onSuccess(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    var locationInput = document.getElementById('location');
+    locationInput.value = latitude + ',' + longitude;
+
+    Swal.close();
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Ubicación obtenida correctamente',
+        showConfirmButton: false,
+        timer: 2000 
+    });
+}
+
+function onError(error) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error al obtener la geolocalización',
+        text: error.message,
+        customClass: {
+            popup: 'w-80'
+        }
+    });
+
+    Swal.close();
+}
+
 document.getElementById('product-form').addEventListener('submit', async function(e) {
-    e.preventDefault(); // Evitar el comportamiento predeterminado de envío del formulario
+    e.preventDefault();
 
     const user = auth.currentUser;
 
@@ -125,11 +177,16 @@ document.getElementById('product-form').addEventListener('submit', async functio
             return;
         }
 
-        Swal.fire({
-            title: 'Loading...',
-            html: 'Subiendo imagen...',
+        const uploadingAlert = Swal.fire({
+            title: 'Subiendo imagen...',
+            customClass: {
+                    popup: 'w-60'
+                },
             allowOutsideClick: false,
-            onBeforeOpen: () => {
+            showConfirmButton: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
                 Swal.showLoading();
             }
         });
@@ -153,6 +210,7 @@ document.getElementById('product-form').addEventListener('submit', async functio
             return;
         }
 
+        // Subida de la imagen completada, ahora guardar el producto
         try {
             const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
                 itemName,
@@ -206,24 +264,6 @@ document.getElementById('close-qr-modal').addEventListener('click', function() {
     document.getElementById('qr-modal').classList.add('hidden');
     showNavBar(); 
 });
-
-function obtenerGeolocalizacion() {
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
-
-//geolocalizacion
-function onSuccess(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    var locationInput = document.getElementById('location');
-    locationInput.value = latitude + ',' + longitude;
-}
-
-function onError(error) {
-    alert('Error al obtener la geolocalización: ' + error.message);
-}
-
 
 </script>
 
@@ -367,4 +407,3 @@ function onError(error) {
 showProducts();
     
 </script>
-

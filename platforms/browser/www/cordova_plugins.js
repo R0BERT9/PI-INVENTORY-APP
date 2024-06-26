@@ -15,29 +15,42 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-keyboard/www/keyboard.js",
-        "id": "cordova-plugin-keyboard.keyboard",
-        "pluginId": "cordova-plugin-keyboard",
+        "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+        "id": "cordova-plugin-camera.Camera",
+        "pluginId": "cordova-plugin-camera",
         "clobbers": [
-            "window.Keyboard"
+            "Camera"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-android-permissions/www/permissions-dummy.js",
-        "id": "cordova-plugin-android-permissions.Permissions",
-        "pluginId": "cordova-plugin-android-permissions",
+        "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+        "id": "cordova-plugin-camera.CameraPopoverOptions",
+        "pluginId": "cordova-plugin-camera",
         "clobbers": [
-            "cordova.plugins.permissions"
+            "CameraPopoverOptions"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-camera/www/Camera.js",
+        "id": "cordova-plugin-camera.camera",
+        "pluginId": "cordova-plugin-camera",
+        "clobbers": [
+            "navigator.camera"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-camera/src/browser/CameraProxy.js",
+        "id": "cordova-plugin-camera.CameraProxy",
+        "pluginId": "cordova-plugin-camera",
+        "runs": true
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-splashscreen": "6.0.1",
-    "cordova-plugin-keyboard": "1.2.0",
     "cordova-plugin-geolocation": "5.0.0",
-    "cordova-plugin-android-permissions": "1.1.5"
+    "cordova-plugin-camera": "7.0.0"
 }
 // BOTTOM OF METADATA
 });

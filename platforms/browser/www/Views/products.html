@@ -50,12 +50,15 @@
             <button type="button" id="getCoordinatesBtn"  onclick="obtenerGeolocalizacion()"  class="bg-fc2 text-white px-4 py-2 rounded-md">Obtener Coordenadas</button>
             
 
-            <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
-                <input class="opacity-0 w-full h-full z-50" type="file" id="image">
-                <img class="absolute w-40" src="Public/assets/bx-image.svg" alt="">
+            <button type="button" id="captureImageButton" onclick="capturarImagen()" class="bg-fc3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Capturar Imagen</button>
+            
+            <!-- Elemento para mostrar la imagen capturada -->
+            <div id="capturedImageContainer" class="h-48 w-full flex justify-center items-center bg-fc2 rounded-md hidden">
+                <img id="capturedImage" class="w-auto h-full" src="" alt="Captured Image">
             </div>
+
             <div class="w-full">
-                <button type="submit" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Add Product</button>
+                <button type="submit" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Agregar Producto</button>
             </div>
         </form>
         
@@ -100,16 +103,12 @@
 </script>
 
 <script>
-// Escuchar el evento de envío del formulario
 document.getElementById('product-form').addEventListener('submit', async function(e) {
     e.preventDefault(); // Evitar el comportamiento predeterminado de envío del formulario
 
-    // Obtener el usuario autenticado
     const user = auth.currentUser;
 
-    // Verificar si hay un usuario autenticado
     if (user) {
-        // Obtener los valores de los campos del formulario
         const itemName = document.getElementById('itemName').value;
         const description = document.getElementById('description').value;
         const date = document.getElementById('dateInput').value;
@@ -117,7 +116,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
         const location = document.getElementById('location').value;
         const imageFile = document.getElementById('image').files[0];
 
-        // Validar que todos los campos estén llenos
         if (!itemName || !description || !date || !quantity || !location || !imageFile) {
             Swal.fire({
                 icon: 'error',
@@ -130,7 +128,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
             return;
         }
 
-        // Mostrar un mensaje de carga mientras se sube la imagen
         Swal.fire({
             title: 'Loading...',
             html: 'Subiendo imagen...',
@@ -140,7 +137,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
             }
         });
 
-        // Subir la imagen a Firebase Storage
         let imageUrl = "";
         try {
             const storageRef = firebase.storage().ref();
@@ -160,7 +156,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
             return;
         }
 
-        // Añadir el producto a Firestore
         try {
             const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
                 itemName,
@@ -172,10 +167,8 @@ document.getElementById('product-form').addEventListener('submit', async functio
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // Generar la URL del producto para el código QR
             const productURL = `https://yourdomain.com/product/${productRef.id}`;
 
-            // Mostrar el código QR
             QRCode.toDataURL(productURL, function (err, url) {
                 if (err) {
                     console.error(err);
@@ -190,12 +183,10 @@ document.getElementById('product-form').addEventListener('submit', async functio
                     return;
                 }
                 Swal.close();
-                // Mostrar el código QR generado
                 const qrCodeContainer = document.querySelector('.qr-code-container');
                 qrCodeContainer.innerHTML = `<img src="${url}">`;
                 document.getElementById('qr-modal').classList.remove('hidden');
 
-                // Mostrar los productos actualizados
                 showProducts();
             });
         } catch (error) {
@@ -214,12 +205,49 @@ document.getElementById('product-form').addEventListener('submit', async functio
     }
 });
 
-
-// Manejar el clic en el botón para cerrar el modal del código QR
 document.getElementById('close-qr-modal').addEventListener('click', function() {
     document.getElementById('qr-modal').classList.add('hidden');
-    showNavBar(); // Función para mostrar la barra de navegación (asumo que la tienes definida)
+    showNavBar(); 
 });
+
+function obtenerGeolocalizacion() {
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+}
+
+//geolocalizacion
+function onSuccess(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    var locationInput = document.getElementById('location');
+    locationInput.value = latitude + ',' + longitude;
+}
+
+function onError(error) {
+    alert('Error al obtener la geolocalización: ' + error.message);
+}
+
+function capturarImagen() {
+    navigator.camera.getPicture(onCaptureSuccess, onCaptureFail, {
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI,
+        saveToPhotoAlbum: true
+    });
+}
+
+// Función que se ejecuta si se captura la imagen exitosamente
+function onCaptureSuccess(imageURI) {
+    var imageElement = document.getElementById('capturedImage');
+    var capturedImageContainer = document.getElementById('capturedImageContainer');
+    imageElement.src = imageURI;
+    capturedImageContainer.classList.remove('hidden');
+}
+
+// Función que se ejecuta si hay un error al capturar la imagen
+function onCaptureFail(message) {
+    alert('Error al capturar imagen: ' + message);
+}
+
 </script>
 
 <script>
@@ -363,20 +391,3 @@ showProducts();
     
 </script>
 
-<script>function obtenerGeolocalizacion() {
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
-
-// Función que se ejecuta si se obtiene la geolocalización exitosamente
-function onSuccess(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    // Mostrar las coordenadas en una alerta
-    alert('Latitud: ' + latitude + '\nLongitud: ' + longitude);
-}
-
-// Función que se ejecuta si hay un error al obtener la geolocalización
-function onError(error) {
-    alert('Error al obtener la geolocalización: ' + error.message);
-}</script>

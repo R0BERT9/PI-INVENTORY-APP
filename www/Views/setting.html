@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col gap-20">
+        <div class="flex flex-col gap-72">
             <div class="gap-12 flex flex-col">
                 <div class="flex flex-col gap-5"> <!--Contenido principal-->
                     <h2 class="font-bold text-lg">Account</h2> <!--Titulo principal-->
@@ -26,7 +26,7 @@
                                 <img class="flex m-auto w-10" src="/Public/assets/bx-user.svg" alt="">
                             </div>
                             <div class="flex flex-col justify-center">
-                                <h2 class="font-bold">Robert9</h2>
+                                <h2 class="font-bold" id="usernamePlaceholder">Cargando...</h2>
                                 <p class="text-sm text-[#B5B1AC]">Personal Info</p>
                             </div>
                         </div>
@@ -35,42 +35,9 @@
                         </button>
                     </div>  
                 </div>
-    
-                <div class="flex flex-col gap-5"> <!--Contenido principal-->
-                    <h2 class="font-bold text-lg">Settings</h2> <!--Titulo principal-->
-    
-                    <div class="w-full flex"> <!--Seleccion-->
-                        <div class="w-[50%] flex gap-3">
-                            <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
-                                <img class="flex m-auto w-10" src="/Public/assets/bx-world.svg" alt="">
-                            </div>
-                            <div class="flex items-center">
-                                <h2 class="font-bold">Language</h2>
-                            </div>
-                        </div>
-                        <button class="flex items-center w-[50%] justify-end">
-                            <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
-                        </button>
-                    </div>
-
-                    <div class="w-full flex"> <!--Seleccion-->
-                        <div class="w-[50%] flex gap-3">
-                            <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
-                                <img class="flex m-auto w-10" src="/Public/assets/bx-moon.svg" alt="">
-                            </div>
-                            <div class="flex items-center">
-                                <h2 class="font-bold">Dark Mode</h2>
-                            </div>
-                        </div>
-                        <button class="flex items-center w-[50%] justify-end">
-                            <img class="w-10" src="/Public/assets/bx-toggle-left.svg" alt="">
-                        </button>
-                    </div>
-                </div>
             </div>
 
-            <div>
-                <div class="w-full flex"> <!--Seleccion-->
+            <div class="w-full flex"> <!--Seleccion-->
                     <div class="w-[50%] flex gap-3">
                         <div class="rounded-lg bg-[#EEF2FF] w-12 h-12 flex items-center">
                             <img class="flex m-auto w-10" src="/Public/assets/bx-log-out.svg" alt="">
@@ -82,7 +49,6 @@
                     <button class="flex items-center w-[50%] justify-end logout-button">
                         <img class="w-10" src="/Public/assets/bx-chevron-right.svg" alt="">
                     </button>
-                </div>
             </div>
         </div>
     </div>
@@ -135,4 +101,36 @@ document.querySelector('.logout-button').addEventListener('click', function() {
     document.querySelector('.view-profile').addEventListener('click',function(){
         loadPartialView('profile',document.querySelector('.init'), false);
     })
+</script>
+
+
+
+<script>
+function mostrarNombreUsuario() {
+    const user = auth.currentUser;
+
+    if (user) {
+        const userId = user.uid;
+        const userRef = db.collection('Usuarios').doc(userId);
+
+        userRef.get().then((doc) => {
+            if (doc.exists) {
+                const userData = doc.data();
+                const fullName = userData.fullName; // Suponiendo que el campo en Firebase se llama 'fullName'
+
+                const usernameElement = document.getElementById('usernamePlaceholder');
+                usernameElement.textContent = fullName;
+            } else {
+                console.log('No such document!');
+            }
+        }).catch((error) => {
+            console.log('Error getting document:', error);
+        });
+    } else {
+        console.log('No user is signed in');
+    }
+}
+
+mostrarNombreUsuario();
+
 </script>
