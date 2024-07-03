@@ -1,7 +1,7 @@
 <div class="bg-fc2">
     <div class="flex flex-col gap-4 py-14 w-11/12 m-auto -my-4">
-        <h2 id="greeting" class="font-bold text-3xl text-white">Hello, <span id="user-name-placeholder">User</span></h2>
-        <p class="font-medium text-xl text-white">Welcome to your Inventory</p>
+        <h2 id="greeting" class="font-bold text-3xl text-white">Hola, <span id="user-name-placeholder">User</span></h2>
+        <p class="font-medium text-xl text-white">Bienvenido a tu inventario</p>
     </div>
 </div>
 
@@ -15,8 +15,8 @@
 
 <div class="gap-6 flex flex-col mb-20">
     <div class="flex justify-between w-11/12 m-auto">
-        <h2 class="font-bold text-xl text-fc2">Recent Products</h2>
-        <p class="view-see-products font-bold text-[#888888]">See All</p>
+        <h2 class="font-bold text-xl text-fc2">Productos Recientes</h2>
+        <p class="view-see-products font-bold text-[#888888]">Ver Todos</p>
     </div>
 
     <div id="recent-products-container" class="w-4/5 m-auto flex flex-col gap-4 overflow-y-auto"></div>
@@ -27,7 +27,7 @@ function updateGreeting(userName) {
     const greetingElement = document.getElementById('greeting');
     const userNameElement = document.getElementById('user-name-placeholder');
     userNameElement.textContent = userName;
-    greetingElement.textContent = `Hello, ${userName}`;
+    greetingElement.textContent = `Hola, ${userName}`;
     console.log('Nombre del usuario:', userName);
 }
 

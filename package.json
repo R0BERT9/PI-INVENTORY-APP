@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "taildev": "npx tailwindcss -i ./www/public/css/tailwind.css -o ./www/public/css/tailstyle.css --watch"
+    "taildev": "npx tailwindcss -i ./www/Public/css/tailwind.css -o ./www/Public/css/tailstyle.css --watch"
   },
   "keywords": [
     "ecosystem:cordova"

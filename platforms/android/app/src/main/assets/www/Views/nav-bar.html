@@ -1,21 +1,21 @@
 <button class="flex flex-col items-center view-home">
     <img class="w-7" src="Public/assets/bx-home-smile.svg" alt="">
-    <span class="text-white text-sm">Home</span>
+    <span class="text-white text-sm">Inicio</span>
 </button>
 
 <button class="flex flex-col items-center view-products">
     <img  class="w-7" src="Public/assets/bx-package-bar.svg" alt="">
-    <span class="text-white text-sm">Products</span>
+    <span class="text-white text-sm">Productos</span>
 </button>
 
 <button class="flex flex-col items-center view-scan">
     <img class="w-7" src="Public/assets/bx-qr-scan-bar.svg" alt="">
-    <span class="text-white text-sm">Quick Scan</span>
+    <span class="text-white text-sm">Escaneo</span>
 </button>
 
 <button class="flex flex-col items-center view-profile">
     <img class="w-7" src="Public/assets/bx-user-circle-bar.svg" alt="">
-    <span class="text-white text-sm">Profile</span>
+    <span class="text-white text-sm">Configuración</span>
 </button>
 
 
@@ -29,7 +29,7 @@
     })
 
     document.querySelector('.view-scan').addEventListener('click',function(){
-    loadPartialView('home-inventory',document.querySelector('.init'), false);
+    loadPartialView('qr-scan',document.querySelector('.init'), false);
     })
 
     document.querySelector('.view-profile').addEventListener('click',function(){
