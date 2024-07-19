@@ -1,30 +1,75 @@
-<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
 
-<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+<div id="products-view" class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% de la pantalla -->
 
-    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
-        <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
-        <h3 class="font-bold">Back</h3>
+    <div class="flex gap-2 view-back"> <!-- Div para el botón de regresar a la pestaña anterior -->
+        <button><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
+        <h3 class="font-bold">Atrás</h3>
     </div>
 
-    <div class="w-[85%] m-auto flex flex-col gap-6 ">
+    <div class="w-[85%] m-auto flex flex-col gap-6">
         <div class="flex gap-5 justify-between items-end">
             <div class="gap-1 flex flex-col">
-                <h3 class="text-fc2 font-bold text-3xl">Products</h3>
+                <h3 class="text-fc2 font-bold text-3xl">Productos</h3>
                 <div class="flex-grow border-t border-fc3"></div>
             </div>
             <div>
-                <button class="font-bold text-[#888888]" id="add-products-button">Add Products</button>
+                <button class="font-bold text-[#888888]" id="add-products-button">Añadir Producto</button>
             </div>
         </div>
     </div>
 
-   
-    <div id="products-container" class="w-[90%] m-auto flex flex-col gap-4 overflow-y-auto mb-20">  <!--Container principal de producto-->
+    <div id="products-container" class="w-[90%] m-auto flex flex-col gap-4 overflow-y-auto mb-20">  <!-- Contenedor principal de producto -->
         <!-- Aquí se mostrarán los productos -->
     </div>
-    
+</div>
 
+<div id="details-container" class="flex flex-col w-[90%] gap-10 m-auto mt-10 hidden mb-10"> <!-- Div principal utilizo el 90% de la pantalla -->
+    <div class="flex gap-2 view-back">
+        <button id="back-button"><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
+        <h3 class="font-bold">Atrás</h3>
+    </div>
+
+    <div class="w-[85%] m-auto flex flex-col gap-7">
+        <div class="flex gap-5 justify-between items-end">
+            <div class="gap-1 flex flex-col">
+                <h3 class="text-fc2 font-bold text-3xl">Detalles</h3>
+                <div class="flex-grow border-t border-fc3"></div>
+            </div>
+        </div>
+
+        <div class="bg-[#EEF2FF] p-4 rounded-md flex flex-col gap-2">   
+            <img id="product-image" class="rounded-md object-cover flex justify-center items-center max-h-36 w-full"> 
+            
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 id="product-title" class="font-semibold"></h1>
+                    <p id="product-quantity" class="text-sm"></p>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <img src="Public/assets/calendar-month.svg" alt="">
+                    <p id="product-date" class="text-[#757575] text-sm"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <h2 id="product-name" class="font-bold text-lg"></h2>
+            <p id="product-description" class="text-sm"></p>
+        </div>
+     
+        <div class="flex flex-col gap-3">
+            <div id="map-container" style="height: 150px; width: 100%;">
+                <div id="map" style="height: 100%;" class="rounded-md"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="font-semibold" id="city-state">Ubicación</h2>
+                    <p class="text-sm" id="location-address"></p>
+                </div>
+                <button id="view-map-button" class="px-3 py-1 bg-fc3 rounded-md text-white font-semibold">Ver en Mapa</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="add-products-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
@@ -34,37 +79,33 @@
                 <button id="close-modal"><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
             </div>
             <div class="flex justify-center w-[80%]">
-                <h2 class="text-fc2 font-bold text-3xl text-center">Add Product</h2>
+                <h2 class="text-fc2 font-bold text-3xl text-center">Añadir Producto</h2>
             </div>
         </div>
 
         <form id="product-form" class="w-10/12 m-auto gap-3 flex flex-col">
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Item Name" id="itemName">
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Description" id="description">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Nombre del Producto" id="itemName">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Descripción" id="description">
             <div class="flex gap-4">
-                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF] focus:outline-none" placeholder="Date" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
-                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Qty" id="quantity"> 
+                <input type="text" id="dateInput" class="rounded-md p-2 w-[50%] bg-[#EEF2FF] focus:outline-none" placeholder="Fecha" onfocus="(this.type='date')" onblur="(this.type='text')"/>   
+                <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="number" placeholder="Cantidad" id="quantity"> 
             </div>
 
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Location" id="location">
+            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Location" id="location" readonly>
             <button type="button" id="getCoordinatesBtn"  onclick="obtenerGeolocalizacion()"  class="bg-fc2 text-white px-4 py-2 rounded-md">Obtener Coordenadas</button>
             
 
-            <button type="button" id="captureImageButton" onclick="capturarImagen()" class="bg-fc3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Capturar Imagen</button>
-            
-            <!-- Elemento para mostrar la imagen capturada -->
-            <div id="capturedImageContainer" class="h-48 w-full flex justify-center items-center bg-fc2 rounded-md hidden">
-                <img id="capturedImage" class="w-auto h-full" src="" alt="Captured Image">
+            <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
+                <input type="file" id="image" accept="image/*" capture="camera" class="opacity-0 w-full h-full z-50" onchange="mostrarImagen(this)">
+                <img class="absolute w-40" src="Public/assets/bx-image.svg" alt="">
             </div>
-
             <div class="w-full">
-                <button type="submit" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Agregar Producto</button>
+                <button type="submit" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Añadir Producto</button>
             </div>
         </form>
         
     </div>
 </div>
-
 
 <div id="qr-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
     <div class="bg-white w-11/12 py-5 rounded-lg flex gap-6 flex-col">
@@ -73,14 +114,13 @@
                 <button id="close-qr-modal"><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
             </div>
             <div class="flex justify-center w-[80%]">
-                <h2 class="text-fc2 font-bold text-3xl text-center">Your QR Code</h2>
+                <h2 class="text-fc2 font-bold text-3xl text-center">Tu Código QR</h2>
             </div>
         </div>
         <div class="qr-code-container flex justify-center items-center">
-            <!-- QR Code will be inserted here -->
         </div>
         <div class="w-11/12 m-auto">
-            <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Save QR</button>
+            <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Guardar QR</button>
         </div>
     </div>
 </div>
@@ -103,8 +143,81 @@
 </script>
 
 <script>
+    function obtenerGeolocalizacion() {
+    Swal.fire({
+        title: 'Obteniendo Ubicación...',
+        width: '300px',
+        color: '#000',
+        padding: '20px 0',
+        customClass: {
+            title: 'text-3xl',
+            loader: 'border-y-[#6A5ACD] border-x-transparent'
+    },
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+    const alertTimeout = setTimeout(function() {
+        Swal.close();
+    }, 4000); // 4000 milisegundos = 4 segundos
+
+    const options = {
+        enableHighAccuracy: true, // Solicita alta precisión
+        timeout: 5000, // Tiempo máximo para obtener la ubicación
+        maximumAge: 0 // No usar una ubicación en caché
+    };
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+        onSuccess(position);
+        clearTimeout(alertTimeout); 
+    }, function(error) {
+        onError(error);
+        clearTimeout(alertTimeout);
+    }, options);
+}
+
+function onSuccess(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    var locationInput = document.getElementById('location');
+    locationInput.value = latitude + ',' + longitude;
+
+    Swal.close();
+
+    Swal.fire({
+        icon: 'success',
+        iconColor: '#6A5ACD',
+        title: 'Ubicación obtenida correctamente',
+        showConfirmButton: false,
+        width:'300px',
+        timer: 1500,
+        customClass: {
+                        title: 'text-2xl',
+                    },
+    });
+}
+
+function onError(error) {
+    Swal.fire({
+                icon: 'error',
+                iconColor:'#6A5ACD',
+                title: 'Oops...',
+                text: 'Error al obtener la geolocalización',
+                width: '300px',
+                padding : '10px 0px',
+                customClass: {
+                    title: 'text-2xl',
+                    text: 'text-md'
+                }
+            });
+
+    Swal.close();
+}
+
 document.getElementById('product-form').addEventListener('submit', async function(e) {
-    e.preventDefault(); // Evitar el comportamiento predeterminado de envío del formulario
+    e.preventDefault();
 
     const user = auth.currentUser;
 
@@ -119,23 +232,32 @@ document.getElementById('product-form').addEventListener('submit', async functio
         if (!itemName || !description || !date || !quantity || !location || !imageFile) {
             Swal.fire({
                 icon: 'error',
+                iconColor:'#6A5ACD',
                 title: 'Oops...',
                 text: 'Necesitas llenar todos los campos!',
+                width: '300px',
+                padding : '10px 0px',
                 customClass: {
-                    popup: 'w-80'
+                    title: 'text-2xl',
+                    text: 'text-md'
                 }
             });
             return;
         }
 
-        Swal.fire({
-            title: 'Loading...',
-            html: 'Subiendo imagen...',
-            allowOutsideClick: false,
-            onBeforeOpen: () => {
-                Swal.showLoading();
-            }
-        });
+        const uploadingAlert = Swal.fire({
+        title: 'Subiendo Imagen...',
+        width: '300px',
+        color: '#000',
+        padding: '20px 0',
+        customClass: {
+            title: 'text-3xl',
+            loader: 'border-y-[#6A5ACD] border-x-transparent'
+    },
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
 
         let imageUrl = "";
         try {
@@ -147,15 +269,20 @@ document.getElementById('product-form').addEventListener('submit', async functio
             console.error("Error uploading image:", error);
             Swal.fire({
                 icon: 'error',
+                iconColor:'#6A5ACD',
                 title: 'Oops...',
-                text: 'Error subiendo la imagen.',
+                text: 'Error subiendo la imagen',
+                width: '300px',
+                padding : '10px 0px',
                 customClass: {
-                    popup: 'w-80'
+                    title: 'text-2xl',
+                    text: 'text-md'
                 }
             });
             return;
         }
 
+        // Subida de la imagen completada, ahora guardar el producto
         try {
             const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
                 itemName,
@@ -173,13 +300,17 @@ document.getElementById('product-form').addEventListener('submit', async functio
                 if (err) {
                     console.error(err);
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Error generando QR code!',
-                        customClass: {
-                            popup: 'w-80'
-                        }
-                    });
+                icon: 'error',
+                iconColor:'#6A5ACD',
+                title: 'Oops...',
+                text: 'Error generando codigo QR',
+                width: '300px',
+                padding : '10px 0px',
+                customClass: {
+                    title: 'text-2xl',
+                    text: 'text-md'
+                }
+            });
                     return;
                 }
                 Swal.close();
@@ -193,10 +324,14 @@ document.getElementById('product-form').addEventListener('submit', async functio
             console.error("Error adding product:", error);
             Swal.fire({
                 icon: 'error',
+                iconColor:'#6A5ACD',
                 title: 'Oops...',
-                text: 'Error adding product. Please try again!',
+                text: 'Erro añadiendo producto',
+                width: '300px',
+                padding : '10px 0px',
                 customClass: {
-                    popup: 'w-80'
+                    title: 'text-2xl',
+                    text: 'text-md'
                 }
             });
         }
@@ -207,61 +342,134 @@ document.getElementById('product-form').addEventListener('submit', async functio
 
 document.getElementById('close-qr-modal').addEventListener('click', function() {
     document.getElementById('qr-modal').classList.add('hidden');
-    showNavBar(); 
+    hideNavBar(); 
 });
-
-function obtenerGeolocalizacion() {
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
-
-//geolocalizacion
-function onSuccess(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    var locationInput = document.getElementById('location');
-    locationInput.value = latitude + ',' + longitude;
-}
-
-function onError(error) {
-    alert('Error al obtener la geolocalización: ' + error.message);
-}
-
-function capturarImagen() {
-    navigator.camera.getPicture(onCaptureSuccess, onCaptureFail, {
-        quality: 50,
-        destinationType: Camera.DestinationType.FILE_URI,
-        saveToPhotoAlbum: true
-    });
-}
-
-// Función que se ejecuta si se captura la imagen exitosamente
-function onCaptureSuccess(imageURI) {
-    var imageElement = document.getElementById('capturedImage');
-    var capturedImageContainer = document.getElementById('capturedImageContainer');
-    imageElement.src = imageURI;
-    capturedImageContainer.classList.remove('hidden');
-}
-
-// Función que se ejecuta si hay un error al capturar la imagen
-function onCaptureFail(message) {
-    alert('Error al capturar imagen: ' + message);
-}
 
 </script>
 
-<script>
-    function showProducts() {
+<script> /*Mostrar productos y mostrar vista de detalles */
+function initializeMap() {
+    const mapElement = document.getElementById('map');
+    if (mapElement._leaflet_id) {
+        map.remove(); 
+    }
+    
+    map = L.map(mapElement).setView([0, 0], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+}
+
+function showMap(coordinates, city, state) {
+    initializeMap(); 
+
+    L.marker(coordinates).addTo(map)
+        .bindPopup(`<b>${city}</b><br>${state}`)
+        .openPopup();
+
+    map.setView(coordinates, 13);
+}
+
+function showProductDetails(productId, productData) {
+    const productsView = document.getElementById('products-view');
+    const detailsContainer = document.getElementById('details-container');
+    const navBar = document.getElementById('navBar');
+    const mapContainer = document.getElementById('map');
+    const cityStateElement = document.getElementById('city-state');
+    const cityStateParagraph = document.querySelector('#city-state + p');
+    let viewMapButton = document.getElementById('view-map-button');
+
+
+    productsView.classList.add('hidden');
+    detailsContainer.classList.remove('hidden');
+    hideNavBar(); // Ocultar la barra de navegación
+
+    document.getElementById('product-image').src = productData.image;
+    document.getElementById('product-title').textContent = productData.itemName;
+    document.getElementById('product-quantity').textContent = `Cantidad: ${productData.quantity}`;
+    document.getElementById('product-date').textContent = productData.date;
+    document.getElementById('product-name').textContent = productData.itemName;
+    document.getElementById('product-description').textContent = productData.description;
+    
+
+    const [latitude, longitude] = productData.location.split(',').map(coord => parseFloat(coord.trim()));
+
+    if (mapContainer._leaflet_id) {
+        mapContainer._leaflet_id = null; 
+        mapContainer.innerHTML = '';
+    }
+
+    const map = L.map(mapContainer).setView([latitude, longitude], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([latitude, longitude]).addTo(map);
+
+    function getCityState(lat, lon) {
+        const nominatimURL = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
+
+        fetch(nominatimURL)
+            .then(response => response.json())
+            .then(data => {
+                const address = data.address || {};
+                const city = address.city || address.town || address.village || 'Desconocida';
+                const state = address.state || 'Desconocido';
+                cityStateElement.textContent = `Ubicación:`;
+                cityStateParagraph.textContent = `${city}, ${state}`;
+
+
+            })
+            .catch(error => {
+                console.error('Error fetching location:', error);
+                cityStateElement.textContent = 'Ubicación: Desconocida';
+                cityStateParagraph.textContent = 'Desconocido';
+            });
+    }
+
+    getCityState(latitude, longitude);
+
+
+    viewMapButton.replaceWith(viewMapButton.cloneNode(true));
+    viewMapButton = document.getElementById('view-map-button');
+
+    viewMapButton.addEventListener('click', function() {
+        const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        window.open(googleMapsUrl, '_blank');
+    });
+}
+
+function showProductsView() {
+    const productsView = document.getElementById('products-view');
+    const detailsContainer = document.getElementById('details-container');
+
+    productsView.classList.remove('hidden');
+    detailsContainer.classList.add('hidden');
+}
+
+document.getElementById('back-button').addEventListener('click', () => {
+    showProductsView();
+    showNavBar(); 
+
+
+});
+
+function showProducts() {
     const user = auth.currentUser;
 
     if (user) {
         const productsContainer = document.getElementById('products-container');
+        const detailsContainer = document.getElementById('details-container');
+        const productsView = document.getElementById('products-view');
+        const navBar = document.getElementById('navBar');
 
         const unsubscribe = db.collection('Usuarios').doc(user.uid).collection('Products').onSnapshot(snapshot => {
             productsContainer.innerHTML = ""; 
             snapshot.forEach(doc => {
                 const productData = doc.data();
-                const productId = doc.id; // ID del producto
+                const productId = doc.id; 
                 const productName = productData.itemName;
                 const productImage = productData.image;
                 let productQuantity = productData.quantity;
@@ -269,17 +477,14 @@ function onCaptureFail(message) {
                 const productCard = document.createElement('div');
                 productCard.classList.add('w-full', 'bg-[#eef2ff]', 'flex', 'p-2', 'rounded-xl');
                 productCard.setAttribute('data-product-id', productId); 
-
                 productCard.innerHTML = `
                     <div class="bg-white rounded-2xl items-center flex w-1/4">
                         <img src="${productImage}" alt="${productName}" srcset="">
                     </div>
-
                     <div class="p-2 gap-2 flex flex-col w-1/2">
                         <h2 class="text-[#333333] font-medium">${productName}</h2>
                         <p class="text-[#757575] text-xs">Qty: ${productQuantity}</p>
                     </div>
-
                     <div class="flex flex-col gap-4 w-1/4">
                         <div class="flex justify-end">
                             <button class="delete-product" data-product-id="${productId}"><img class="w-7" src="Public/assets/bx-x.svg"></button>
@@ -293,44 +498,51 @@ function onCaptureFail(message) {
                 `;
 
                 productsContainer.appendChild(productCard);
-            });
-            const deleteButtons = document.querySelectorAll('.delete-product');
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', async () => {
-                        const productId = button.getAttribute('data-product-id');
-                        Swal.fire({
-                            title: '¿Estás seguro?',
-                            text: "¡No podrás revertir esto!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Borrar',
-                            cancelButtonText: 'Cancelar',
-                            customClass: {
-                                popup: 'w-80'
-                            }
-                        }).then(async (result) => {
-                            if (result.isConfirmed) {
-                                await db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId).delete();
-                                
-                                const productCard = document.querySelector(`[data-product-id="${productId}"]`);
-                                if (productCard) {
-                                    productCard.remove();
-                                }
 
-                                Swal.fire(
-                                    '¡ELiminado!',
-                                    'Tu producto ha sido eliminado.',
-                                    'success'
-                                );
+                productCard.addEventListener('click', () => {
+                    showProductDetails(productId, productData);
+                });
+
+                
+            });
+
+
+            const deleteButtons = document.querySelectorAll('.delete-product');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation();
+                    const productId = button.getAttribute('data-product-id');
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        iconColor: '#6A5ACD',
+                        width: '300px',
+                        showCancelButton: true,
+                        confirmButtonColor: '#6A5ACD',
+                        cancelButtonColor: '#333333',
+                        confirmButtonText: 'Borrar',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            title: 'text-2xl',
+                            text: 'text-md'
+                        }
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            await db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId).delete();
+                            const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+                            if (productCard) {
+                                productCard.remove();
                             }
-                        });
+                        }
                     });
                 });
+            });
+
             const incrementButtons = document.querySelectorAll('.increment-quantity');
             incrementButtons.forEach(button => {
-                button.addEventListener('click', async () => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation(); // Evitar que se dispare el evento de click en la tarjeta del producto
                     const productId = button.getAttribute('data-product-id');
                     const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
 
@@ -349,7 +561,8 @@ function onCaptureFail(message) {
 
             const decrementButtons = document.querySelectorAll('.decrement-quantity');
             decrementButtons.forEach(button => {
-                button.addEventListener('click', async () => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation(); 
                     const productId = button.getAttribute('data-product-id');
                     const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
 
@@ -366,9 +579,15 @@ function onCaptureFail(message) {
                         } else {
                             Swal.fire({
                                 icon: 'warning',
+                                iconColor: '#6A5ACD',
                                 title: 'Oops...',
                                 text: 'La cantidad no puede ser menor que 1!',
                                 showConfirmButton: false,
+                                width:'300px',
+                                customClass:{
+                                    title: 'text-2xl',
+                                    text: 'text-md'
+                                },
                                 timer: 1500
                             });
                         }
@@ -379,15 +598,14 @@ function onCaptureFail(message) {
 
         document.addEventListener("visibilitychange", function () {
             if (document.visibilityState === 'hidden') {
-                unsubscribe(); // Detener el listener
+                unsubscribe(); 
             }
         });
+
     } else {
         console.log('No user is signed in');
     }
 }
 
 showProducts();
-    
 </script>
-

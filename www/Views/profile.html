@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="/www/Public/css/tailstyle.css">
 
 <div class="flex flex-col w-[90%] gap-10 m-auto mt-10">
-
     <div class="flex gap-2 view-back">
         <button><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
         <h3 class="font-bold">Atrás</h3>
@@ -25,7 +24,7 @@
             <form id="profile-form" class="flex flex-col gap-5 m-0">
                 <div>
                     <span class="view-see-products font-medium text-[#888888]">Nombre Completo</span>
-                    <input id="full-name" type="text" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()" >
+                    <input id="full-name" type="text" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()">
                 </div>
                 <div>
                     <span class="view-see-products font-medium text-[#888888]">Correo Electrónico</span>
@@ -33,7 +32,7 @@
                 </div>
                 <div>
                     <span class="view-see-products font-medium text-[#888888]">Contraseña Actual</span>
-                    <input id="current-password" type="password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()" >
+                    <input id="current-password" type="password" class="w-full p-2 bg-[#EEF2FF] rounded-lg focus:outline-none" onclick="hideNavBar()">
                 </div>
                 <div>
                     <span class="view-see-products font-medium text-[#888888]">Contraseña Nueva</span>
@@ -130,6 +129,11 @@ document.getElementById('save-button').addEventListener('click', function() {
                             icon: 'success',
                             title: 'Datos actualizados',
                             text: 'Los datos se han actualizado correctamente.',
+                        }).then(() => {
+                            // Actualizar la vista sin cambiar a home-inventory
+                            document.getElementById('full-name').value = fullName;
+                            document.getElementById('new-password').value = '';
+                            document.getElementById('current-password').value = '';
                         });
                     }).catch((error) => {
                         Swal.fire({
@@ -160,4 +164,3 @@ document.getElementById('save-button').addEventListener('click', function() {
     }
 });
 </script>
-

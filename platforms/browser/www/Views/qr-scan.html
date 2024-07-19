@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
+
+<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
+
+    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
+        <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
+        <h3 class="font-bold">Atrás</h3>
+    </div>
+
+    <div class="w-[85%] m-auto flex flex-col gap-6 ">
+        <div class="flex gap-5 justify-between items-end">
+            <div class="gap-1 flex flex-col">
+                <h3 class="text-fc2 font-bold text-3xl">Escáner QR</h3>
+                <div class="flex-grow border-t border-fc3"></div>
+            </div>
+        </div>
+
+        <div class="bg-black">
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.view-back').addEventListener('click',function(){
+        loadPartialView('home-inventory',document.querySelector('.init'), false);
+    })
+</script>

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
     <link rel="stylesheet" href="./Public/css/tailstyle.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <div class="init"></div>
@@ -26,9 +27,11 @@
 
         function onDeviceReady() {
             console.log('Device is ready');
+            // Set persistence and then check auth state
             firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
                 .then(() => {
                     console.log('Session persistence set');
+                    // Call checkAuthState only once here
                     checkAuthState();
                 })
                 .catch((error) => {
@@ -37,52 +40,44 @@
         }
 
         function checkAuthState() {
+            console.log('Checking auth state...');
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     console.log('User is authenticated:', user);
-                    if (isRegisterPage()) {
-                        loadPartialView('log-in', document.querySelector('.init'), false);
-                    } else {
-                        loadPartialView('home-inventory', document.querySelector('.init'), false);
+                    // Load home-inventory only if not already loaded
+                    if (!document.querySelector('.init').innerHTML.includes('home-inventory')) {
+                        loadPartialView('home-inventory', document.querySelector('.init'), true);
                     }
                 } else {
                     console.log('No authenticated user');
-                    if (isRegisterPage()) {
-                        loadPartialView('log-in', document.querySelector('.init'), false);
-                    } else {
+                    // Load home-app only if not already loaded
+                    if (!document.querySelector('.init').innerHTML.includes('home-app')) {
                         loadPartialView('home-app', document.querySelector('.init'), false);
                     }
                 }
             });
         }
 
-        function isRegisterPage() {
-            return document.getElementById('sign-up') !== null;
-        }
-
         function hideNavBar() {
             var navBar = document.getElementById("navBar");
-            navBar.style.display = "none";
+            if (navBar) {
+                navBar.style.display = "none";
+            }
         }
 
         function showNavBar() {
             var navBar = document.getElementById("navBar");
-            navBar.style.display = "flex";
+            if (navBar) {
+                navBar.style.display = "flex";
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            loadPartialView('nav-bar', document.querySelector('.nav-bar'), false);
-            checkAuthState(); 
-        });
-
-        document.querySelector('.view-back').addEventListener('click', function(){
-            loadPartialView('home-app', document.querySelector('.init'), false);
-        });
-
-        document.querySelector('.view-log-in').addEventListener('click', function(){
-            loadPartialView('log-in', document.querySelector('.init'), false);
+            // Ensure nav-bar is loaded only once
+            if (!document.querySelector('.nav-bar').innerHTML.includes('nav-bar content')) {
+                loadPartialView('nav-bar', document.querySelector('.nav-bar'), false);
+            }
         });
     </script>
 </body>
 </html>
-

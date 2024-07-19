@@ -1,7 +1,7 @@
 <div class="bg-fc2">
     <div class="flex flex-col gap-4 py-14 w-11/12 m-auto -my-4">
-        <h2 id="greeting" class="font-bold text-3xl text-white">Hello, <span id="user-name-placeholder">User</span></h2>
-        <p class="font-medium text-xl text-white">Welcome to your Inventory</p>
+        <h2 id="greeting" class="font-bold text-3xl text-white">Hola, <span id="user-name-placeholder">User</span></h2>
+        <p class="font-medium text-xl text-white">Bienvenido a tu inventario</p>
     </div>
 </div>
 
@@ -15,19 +15,70 @@
 
 <div class="gap-6 flex flex-col mb-20">
     <div class="flex justify-between w-11/12 m-auto">
-        <h2 class="font-bold text-xl text-fc2">Recent Products</h2>
-        <p class="view-see-products font-bold text-[#888888]">See All</p>
+        <h2 class="font-bold text-xl text-fc2">Productos Recientes</h2>
+        <p class="view-see-products font-bold text-[#888888]">Ver Todos</p>
     </div>
 
     <div id="recent-products-container" class="w-4/5 m-auto flex flex-col gap-4 overflow-y-auto"></div>
 </div>
+
+
+<div id="details-container" class="flex flex-col w-[90%] gap-10 m-auto mt-10 hidden mb-10"> <!-- Div principal utilizo el 90% de la pantalla -->
+    <div class="flex gap-2 view-back">
+        <button id="back-button"><img src="Public/assets/bx-arrow-back.svg" alt=""></button>
+        <h3 class="font-bold">Atrás</h3>
+    </div>
+
+    <div class="w-[85%] m-auto flex flex-col gap-7">
+        <div class="flex gap-5 justify-between items-end">
+            <div class="gap-1 flex flex-col">
+                <h3 class="text-fc2 font-bold text-3xl">Detalles</h3>
+                <div class="flex-grow border-t border-fc3"></div>
+            </div>
+        </div>
+
+        <div class="bg-[#EEF2FF] p-4 rounded-md flex flex-col gap-2">   
+            <img id="product-image" class="rounded-md object-cover flex justify-center items-center max-h-36 w-full"> 
+            
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 id="product-title" class="font-semibold"></h1>
+                    <p id="product-quantity" class="text-sm"></p>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <img src="Public/assets/calendar-month.svg" alt="">
+                    <p id="product-date" class="text-[#757575] text-sm"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <h2 id="product-name" class="font-bold text-lg"></h2>
+            <p id="product-description" class="text-sm"></p>
+        </div>
+     
+        <div class="flex flex-col gap-3">
+            <div id="map-container" style="height: 150px; width: 100%;">
+                <div id="map" style="height: 100%;" class="rounded-md"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="font-semibold" id="city-state">Ubicación</h2>
+                    <p class="text-sm" id="location-address"></p>
+                </div>
+                <button id="view-map-button" class="px-3 py-1 bg-fc3 rounded-md text-white font-semibold">Ver en Mapa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>  
 function updateGreeting(userName) {
     const greetingElement = document.getElementById('greeting');
     const userNameElement = document.getElementById('user-name-placeholder');
     userNameElement.textContent = userName;
-    greetingElement.textContent = `Hello, ${userName}`;
+    greetingElement.textContent = `Hola, ${userName}`;
     console.log('Nombre del usuario:', userName);
 }
 
@@ -76,9 +127,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 document.querySelector('.view-see-products').addEventListener('click',function(){
 loadPartialView('products',document.querySelector('.init'), false);
 })
-</script>
 
-<script>
     function showRecentProducts() {
         const user = auth.currentUser;
 
@@ -119,7 +168,7 @@ loadPartialView('products',document.querySelector('.init'), false);
                     if (snapshot.empty) {
                         recentProductsContainer.innerHTML = `
                             <div class="flex justify-center items-center">
-                                <img src="Public/assets/QR_code_for_mobile_English_Wikipedia.svg.png" alt="No items" class="w-1/2">
+                                <img src="Public/assets/box-empty.png" alt="No items" class="w-[75%]">
                             </div>
                         `;
                     }

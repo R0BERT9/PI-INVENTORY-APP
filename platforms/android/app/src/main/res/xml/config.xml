@@ -10,10 +10,10 @@
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
-    <name>HelloCordova</name>
-    <description>Sample Apache Cordova App</description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
-        Apache Cordova Team
+    <name>InventoryApp</name>
+    <description>InventoryApp Sample</description>
+    <author email="roberto.perez@gmail.com" href="https://cordova.apache.org">
+        Roberto Pérez
     </author>
     <content src="index.html" />
     <allow-intent href="http://*/*" />
