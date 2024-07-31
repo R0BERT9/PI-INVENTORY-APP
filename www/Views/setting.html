@@ -116,7 +116,7 @@ function mostrarNombreUsuario() {
         userRef.get().then((doc) => {
             if (doc.exists) {
                 const userData = doc.data();
-                const fullName = userData.fullName; // Suponiendo que el campo en Firebase se llama 'fullName'
+                const fullName = userData.fullName; 
 
                 const usernameElement = document.getElementById('usernamePlaceholder');
                 usernameElement.textContent = fullName;

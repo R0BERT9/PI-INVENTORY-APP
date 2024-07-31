@@ -4,7 +4,7 @@
   "name": "InventoryApp",
   "short_name": "InventoryApp",
   "version": "io.cordova.hellocordova",
-  "description": "Sample Apache Cordova App",
+  "description": "InventoryApp Sample",
   "author": "Roberto Pérez",
   "icons": [
     {

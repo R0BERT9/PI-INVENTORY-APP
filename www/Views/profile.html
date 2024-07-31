@@ -123,7 +123,6 @@ document.getElementById('save-button').addEventListener('click', function() {
                         promises.push(user.updatePassword(newPassword));
                     }
 
-                    // Ejecutar todas las promesas
                     Promise.all(promises).then(() => {
                         Swal.fire({
                             icon: 'success',

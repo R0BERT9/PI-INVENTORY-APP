@@ -72,84 +72,84 @@
     </div>
 </div>
 
-
-<script>  
-function updateGreeting(userName) {
-    const greetingElement = document.getElementById('greeting');
-    const userNameElement = document.getElementById('user-name-placeholder');
-    userNameElement.textContent = userName;
-    greetingElement.textContent = `Hola, ${userName}`;
-    console.log('Nombre del usuario:', userName);
-}
-
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        const userEmail = user.email;
-
-        if (!localStorage.getItem('hasLoggedIn')) {
-            Swal.fire({
-                title: 'Cargando...',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                    const swalElm = Swal.getPopup();
-                    swalElm.classList.add('bg-white', 'border', 'border-blue-500', 'rounded-md', 'shadow-lg', 'w-80');
-                    const spinner = swalElm.querySelector('.swal2-loader');
-                    pinner.style.borderRightColor = '#1E40AF';
-                }
-            });
-
-            db.collection('Usuarios').where('email', '==', userEmail).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const userName = doc.data().fullName || 'User';
-                    updateGreeting(userName);
-                });
-            }).catch((error) => {
-                console.error('Error obteniendo documentos:', error);
-            }).finally(() => {
-                Swal.close();
-                localStorage.setItem('hasLoggedIn', true);
-            });
-        } else {
-            db.collection('Usuarios').where('email', '==', userEmail).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const userName = doc.data().fullName || 'User';
-                    updateGreeting(userName);
-                });
-            }).catch((error) => {
-                console.error('Error obteniendo documentos:', error);
-            });
-        }
+<script>
+    function updateGreeting(userName) {
+        const greetingElement = document.getElementById('greeting');
+        const userNameElement = document.getElementById('user-name-placeholder');
+        userNameElement.textContent = userName;
+        greetingElement.textContent = `Hola, ${userName}`;
+        console.log('Nombre del usuario:', userName);
     }
-});
-
-document.querySelector('.view-see-products').addEventListener('click',function(){
-loadPartialView('products',document.querySelector('.init'), false);
-})
-
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            const userEmail = user.email;
+    
+            if (!localStorage.getItem('hasLoggedIn')) {
+                Swal.fire({
+                    title: 'Cargando...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const swalElm = Swal.getPopup();
+                        swalElm.classList.add('bg-white', 'border', 'border-blue-500', 'rounded-md', 'shadow-lg', 'w-80');
+                        const spinner = swalElm.querySelector('.swal2-loader');
+                        spinner.style.borderRightColor = '#1E40AF';
+                    }
+                });
+    
+                db.collection('Usuarios').where('email', '==', userEmail).get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const userName = doc.data().fullName || 'User';
+                        updateGreeting(userName);
+                    });
+                }).catch((error) => {
+                    console.error('Error obteniendo documentos:', error);
+                }).finally(() => {
+                    Swal.close();
+                    localStorage.setItem('hasLoggedIn', true);
+                });
+            } else {
+                db.collection('Usuarios').where('email', '==', userEmail).get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const userName = doc.data().fullName || 'User';
+                        updateGreeting(userName);
+                    });
+                }).catch((error) => {
+                    console.error('Error obteniendo documentos:', error);
+                });
+            }
+        }
+    });
+    
+    document.querySelector('.view-see-products').addEventListener('click', function() {
+        loadPartialView('products', document.querySelector('.init'), false);
+    });
+    
     function showRecentProducts() {
-        const user = auth.currentUser;
-
+        const user = firebase.auth().currentUser;
+    
         if (user) {
             const recentProductsContainer = document.getElementById('recent-products-container');
-
+    
             db.collection('Usuarios').doc(user.uid).collection('Products')
                 .orderBy('createdAt', 'desc')
                 .limit(5)
                 .onSnapshot(snapshot => {
-                    recentProductsContainer.innerHTML = ""; // Limpiar el contenedor antes de mostrar los nuevos productos
+                    recentProductsContainer.innerHTML = "";
                     snapshot.forEach(doc => {
                         const productData = doc.data();
                         const productName = productData.itemName;
                         const productImage = productData.image;
                         const productDate = productData.date;
                         const productQuantity = productData.quantity;
-
-                        // Crear la tarjeta del producto
+                        const productId = doc.id; 
+    
                         const productCard = document.createElement('div');
                         productCard.classList.add('w-full', 'bg-[#eef2ff]', 'flex', 'p-3', 'rounded-xl', 'gap-4');
-
+                        productCard.setAttribute('data-product-id', productId); 
+    
                         productCard.innerHTML = `
                             <div class="w-1/5 bg-white rounded-2xl items-center flex">
                                 <img src="${productImage}" alt="${productName}">
@@ -160,11 +160,14 @@ loadPartialView('products',document.querySelector('.init'), false);
                                 <p class="text-[#333333] text-xs">Qty: ${productQuantity}</p>
                             </div>
                         `;
-
+    
+                        productCard.addEventListener('click', function() {
+                            showProductDetails(productId); 
+                        });
+    
                         recentProductsContainer.appendChild(productCard);
                     });
-
-                    // Mostrar una imagen cuando no hay productos recientes
+    
                     if (snapshot.empty) {
                         recentProductsContainer.innerHTML = `
                             <div class="flex justify-center items-center">
@@ -177,6 +180,116 @@ loadPartialView('products',document.querySelector('.init'), false);
             console.log('No user is signed in');
         }
     }
+    
+    function showProductDetails(productId) {
+        const detailsContainer = document.getElementById('details-container');
+        const recentProductsContainer = document.getElementById('recent-products-container');
+        const greetingSection = document.querySelector('.bg-fc2');
+        const searchSection = document.querySelector('.py-8');
+        const productsHeader = document.querySelector('.gap-6');
+        const mapContainer = document.getElementById('map');
+        const cityStateElement = document.getElementById('city-state');
+        const cityStateParagraph = document.querySelector('#city-state + p');
+        const viewMapButton = document.getElementById('view-map-button');
 
-    showRecentProducts();
+        const user = firebase.auth().currentUser;
+        if (user) {
+    db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId).get().then((doc) => {
+        if (doc.exists) {
+            const productData = doc.data();
+            document.getElementById('product-image').src = productData.image;
+            document.getElementById('product-title').textContent = productData.itemName;
+            document.getElementById('product-quantity').textContent = `Qty: ${productData.quantity}`;
+            document.getElementById('product-date').textContent = productData.date;
+            document.getElementById('product-name').textContent = productData.itemName;
+            document.getElementById('product-description').textContent = productData.description;
+            
+            let lat, lng;
+            if (productData.location) {
+                [lat, lng] = productData.location.split(',').map(coord => parseFloat(coord.trim()));
+
+                if (!isNaN(lat) && !isNaN(lng)) {   
+                    if (mapContainer._leaflet_id) {
+                        mapContainer._leaflet_id = null; 
+                        mapContainer.innerHTML = ''; 
+                    }
+
+                    mapContainer.style.width = '100%';
+                    mapContainer.style.height = '150px';
+
+                    setTimeout(() => {
+                        const map = L.map(mapContainer).setView([lat, lng], 18);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+                        L.marker([lat, lng]).addTo(map).openPopup();
+                    }, 100);
+
+                    viewMapButton.addEventListener('click', function() {
+                        const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+                        window.open(googleMapsUrl, '_blank');
+                    });
+
+                    getCityState(lat, lng, cityStateElement, cityStateParagraph);
+                } else {
+                    console.error('Coordenadas no válidas:', lat, lng);
+                }
+            } else {
+                console.error('Ubicación no definida en los datos del producto');
+            }
+
+            detailsContainer.classList.remove('hidden');
+            recentProductsContainer.classList.add('hidden');
+            greetingSection.classList.add('hidden'); 
+            searchSection.classList.add('hidden');
+            productsHeader.classList.add('hidden'); 
+            hideNavBar(); 
+        } else {
+            console.log('No such document!');
+        }
+    }).catch((error) => {
+        console.error('Error getting document:', error);
+    });
+}
+    }
+
+    function getCityState(lat, lon, cityStateElement, cityStateParagraph) {
+        const nominatimURL = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+        
+        fetch(nominatimURL)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.address) {
+                    const city = data.address.city || '';
+                    const state = data.address.state || '';
+                    cityStateParagraph.textContent = `${city}, ${state}`;
+                } else {
+                    console.error('No data found for the given coordinates');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching city and state:', error);
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', showRecentProducts);
+
+document.getElementById('back-button').addEventListener('click', function() {
+    const detailsContainer = document.getElementById('details-container');
+    const recentProductsContainer = document.getElementById('recent-products-container');
+    const greetingSection = document.querySelector('.bg-fc2');
+    const searchSection = document.querySelector('.py-8');
+    const productsHeader = document.querySelector('.gap-6');
+
+    detailsContainer.classList.add('hidden');
+    recentProductsContainer.classList.remove('hidden');
+    greetingSection.classList.remove('hidden'); 
+    searchSection.classList.remove('hidden'); 
+    productsHeader.classList.remove('hidden'); 
+    showNavBar();
+
+});
+
+showRecentProducts();
+
 </script>

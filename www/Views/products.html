@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
 <div id="products-view" class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% de la pantalla -->
 
     <div class="flex gap-2 view-back"> <!-- Div para el botón de regresar a la pestaña anterior -->
@@ -91,8 +91,10 @@
                 <input class="flex w-[50%] p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="number" placeholder="Cantidad" id="quantity"> 
             </div>
 
-            <input class="w-full p-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Location" id="location" readonly>
-            <button type="button" id="getCoordinatesBtn"  onclick="obtenerGeolocalizacion()"  class="bg-fc2 text-white px-4 py-2 rounded-md">Obtener Coordenadas</button>
+            <div class="flex gap-2 ">
+                <input class="w-full px-2 bg-[#EEF2FF] rounded-md focus:outline-none" type="text" placeholder="Location" id="location" readonly>
+                <button type="button" id="getCoordinatesBtn"  onclick="obtenerGeolocalizacion()"  class="bg-fc2 text-white px-4 text-s rounded-md">Obtener Coordenadas</button>
+            </div>
             
 
             <div class="h-48 w-full flex justify-center items-center bg-[#EEF2FF] rounded-md">
@@ -160,12 +162,12 @@
 
     const alertTimeout = setTimeout(function() {
         Swal.close();
-    }, 4000); // 4000 milisegundos = 4 segundos
+    }, 4000); 
 
     const options = {
-        enableHighAccuracy: true, // Solicita alta precisión
-        timeout: 5000, // Tiempo máximo para obtener la ubicación
-        maximumAge: 0 // No usar una ubicación en caché
+        enableHighAccuracy: true, 
+        timeout: 5000, 
+        maximumAge: 0 
     };
 
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -282,7 +284,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
             return;
         }
 
-        // Subida de la imagen completada, ahora guardar el producto
         try {
             const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
                 itemName,
@@ -347,17 +348,16 @@ document.getElementById('close-qr-modal').addEventListener('click', function() {
 
 </script>
 
-<script> /*Mostrar productos y mostrar vista de detalles */
+<script> 
 function initializeMap() {
     const mapElement = document.getElementById('map');
     if (mapElement._leaflet_id) {
         map.remove(); 
     }
     
-    map = L.map(mapElement).setView([0, 0], 13);
+    map = L.map(mapElement).setView([0, 0], 18);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 }
 
@@ -368,7 +368,7 @@ function showMap(coordinates, city, state) {
         .bindPopup(`<b>${city}</b><br>${state}`)
         .openPopup();
 
-    map.setView(coordinates, 13);
+    map.setView(coordinates, 18);
 }
 
 function showProductDetails(productId, productData) {
@@ -383,7 +383,7 @@ function showProductDetails(productId, productData) {
 
     productsView.classList.add('hidden');
     detailsContainer.classList.remove('hidden');
-    hideNavBar(); // Ocultar la barra de navegación
+    hideNavBar();
 
     document.getElementById('product-image').src = productData.image;
     document.getElementById('product-title').textContent = productData.itemName;
@@ -400,10 +400,9 @@ function showProductDetails(productId, productData) {
         mapContainer.innerHTML = '';
     }
 
-    const map = L.map(mapContainer).setView([latitude, longitude], 13);
+    const map = L.map(mapContainer).setView([latitude, longitude], 18);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     L.marker([latitude, longitude]).addTo(map);
@@ -542,7 +541,7 @@ function showProducts() {
             const incrementButtons = document.querySelectorAll('.increment-quantity');
             incrementButtons.forEach(button => {
                 button.addEventListener('click', async (event) => {
-                    event.stopPropagation(); // Evitar que se dispare el evento de click en la tarjeta del producto
+                    event.stopPropagation(); 
                     const productId = button.getAttribute('data-product-id');
                     const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
 

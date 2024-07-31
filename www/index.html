@@ -27,11 +27,9 @@
 
         function onDeviceReady() {
             console.log('Device is ready');
-            // Set persistence and then check auth state
             firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
                 .then(() => {
                     console.log('Session persistence set');
-                    // Call checkAuthState only once here
                     checkAuthState();
                 })
                 .catch((error) => {
@@ -44,13 +42,11 @@
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     console.log('User is authenticated:', user);
-                    // Load home-inventory only if not already loaded
                     if (!document.querySelector('.init').innerHTML.includes('home-inventory')) {
                         loadPartialView('home-inventory', document.querySelector('.init'), true);
                     }
                 } else {
                     console.log('No authenticated user');
-                    // Load home-app only if not already loaded
                     if (!document.querySelector('.init').innerHTML.includes('home-app')) {
                         loadPartialView('home-app', document.querySelector('.init'), false);
                     }
@@ -73,7 +69,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Ensure nav-bar is loaded only once
             if (!document.querySelector('.nav-bar').innerHTML.includes('nav-bar content')) {
                 loadPartialView('nav-bar', document.querySelector('.nav-bar'), false);
             }
