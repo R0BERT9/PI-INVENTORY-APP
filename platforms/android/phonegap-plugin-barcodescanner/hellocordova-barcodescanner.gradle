@@ -1,0 +1,23 @@
+repositories {
+    jcenter()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation(name: 'barcodescanner-release-2.1.5', ext: 'aar')
+}
+
+android {
+    compileSdkVersion 33  // Especifica la versión de SDK que deseas usar
+
+    defaultConfig {
+        // Otros ajustes de configuración
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}

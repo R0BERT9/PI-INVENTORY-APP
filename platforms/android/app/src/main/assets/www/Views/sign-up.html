@@ -41,12 +41,13 @@
         if (!validateEmail(email)) {
             Swal.fire({
                 icon: 'error',
+                iconColor: '#333333',
                 title: 'Error al registrar usuario',
+                width: '300px',
                 text: 'Por favor, ingrese un correo electrónico válido.',
                 customClass: {
-                    popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80',
-                    title: 'font-semibold text-fc2 text-lg',
-                    content: 'text-gray-700 text-sm',
+                    title: 'text-2xl',
+                    text:'text-md',
                 }
             });
             return;
@@ -55,12 +56,13 @@
         if (password.length < 6) {
             Swal.fire({
                 icon: 'error',
+                iconColor: '#333333',
+                width: '300px',
                 title: 'Error al registrar usuario',
                 text: 'La contraseña debe tener al menos 6 caracteres.',
                 customClass: {
-                    popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80',
-                    title: 'font-semibold text-fc2 text-lg',
-                    content: 'text-gray-700 text-sm',
+                    title: 'text-2xl',
+                    text:'text-md',
                 }
             });
             return;
@@ -69,12 +71,13 @@
         if (password !== confirmPassword) {
             Swal.fire({
                 icon: 'error',
+                iconColor: '#333333',
+                width: '300px',
                 title: 'Error al registrar usuario',
                 text: 'Las contraseñas no coinciden.',
                 customClass: {
-                    popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80',
-                    title: 'font-semibold text-fc2 text-lg',
-                    content: 'text-gray-700 text-sm',
+                    title: 'text-2xl',
+                    text:'text-md',
                 }
             });
             return;
@@ -84,13 +87,13 @@
             title: 'Cargando..',
             allowOutsideClick: false,
             showConfirmButton: false,
+            width:'280px',
+            customClass: {
+                title: 'text-2xl',
+                loader: 'border-y-[#6A5ACD] border-x-transparent'
+            },
             didOpen: () => {
                 Swal.showLoading();
-                const swalElm = Swal.getPopup();
-                swalElm.classList.add('bg-white', 'border', 'border-blue-500', 'rounded-md', 'shadow-lg', 'w-80');
-                const spinner = swalElm.querySelector('.swal2-loader');
-                spinner.style.borderTopColor = '#6A5ACD';
-                spinner.style.borderRightColor = '#6A5ACD';
             }
         });
 
@@ -105,13 +108,14 @@
             .then(() => {
                 Swal.fire({
                     icon: 'success',
+                    iconColor:'#6A5ACD',
+                    width: '300px',
                     title: 'Registro exitoso',
                     timer: 2000,
                     showConfirmButton: false,
                     customClass: {
-                        popup: 'bg-white border border-green-300 rounded-md shadow-lg w-80',
-                        title: 'font-semibold text-fc2 text-lg',
-                        content: 'text-gray-700 text-sm',
+                       title: 'text-2xl',
+                       text: 'text-md'
                     }
                 }).then(() => {
                     loadPartialView('home-inventory', document.querySelector('.init'), false);
@@ -130,12 +134,13 @@
 
                 Swal.fire({
                     icon: 'error',
+                    iconColor: '#333333',
                     title: 'Error al registrar usuario',
+                    width: '300px',
                     text: errorMessage,
                     customClass: {
-                        popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80',
-                        title: 'font-semibold text-fc2 text-lg',
-                        content: 'text-gray-700 text-sm',
+                        title: 'text-2xl',
+                        text: 'text-md'
                     }
                 });
             });

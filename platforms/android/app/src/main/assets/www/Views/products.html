@@ -109,7 +109,7 @@
     </div>
 </div>
 
-<div id="qr-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4">
+<div id="qr-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden gap-4 ">
     <div class="bg-white w-11/12 py-5 rounded-lg flex gap-6 flex-col">
         <div class="w-11/12 m-auto flex justify-center items-center">
             <div class="justify-start flex relative">
@@ -122,7 +122,7 @@
         <div class="qr-code-container flex justify-center items-center">
         </div>
         <div class="w-11/12 m-auto">
-            <button class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Guardar QR</button>
+            <button id="save-qr-btn" class="w-full rounded-md bg-fc3 text-white p-3 font-extrabold text-xl">Guardar QR</button>
         </div>
     </div>
 </div>
@@ -146,79 +146,75 @@
 
 <script>
     function obtenerGeolocalizacion() {
-    Swal.fire({
-        title: 'Obteniendo Ubicación...',
-        width: '300px',
-        color: '#000',
-        padding: '20px 0',
-        customClass: {
-            title: 'text-3xl',
-            loader: 'border-y-[#6A5ACD] border-x-transparent'
-    },
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
+        Swal.fire({
+            title: 'Obteniendo Ubicación...',
+            width: '280px',
+            color: '#000',
+            customClass: {
+                title: 'text-2xl',
+                loader: 'border-y-[#6A5ACD] border-x-transparent'
+            },
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-    const alertTimeout = setTimeout(function() {
-        Swal.close();
-    }, 4000); // 4000 milisegundos = 4 segundos
+        const alertTimeout = setTimeout(() => {
+            Swal.close();
+        }, 4000);
 
-    const options = {
-        enableHighAccuracy: true, // Solicita alta precisión
-        timeout: 5000, // Tiempo máximo para obtener la ubicación
-        maximumAge: 0 // No usar una ubicación en caché
-    };
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
 
-    navigator.geolocation.getCurrentPosition(function(position) {
-        onSuccess(position);
-        clearTimeout(alertTimeout); 
-    }, function(error) {
-        onError(error);
-        clearTimeout(alertTimeout);
-    }, options);
-}
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+        
+        function onSuccess(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-function onSuccess(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+            const locationInput = document.getElementById('location');
+            locationInput.value = `${latitude},${longitude}`;
 
-    var locationInput = document.getElementById('location');
-    locationInput.value = latitude + ',' + longitude;
+            Swal.close();
 
-    Swal.close();
+            Swal.fire({
+                icon: 'success',
+                iconColor: '#6A5ACD',
+                title: 'Ubicación obtenida correctamente',
+                showConfirmButton: false,
+                width: '300px',
+                timer: 1500,
+                customClass: {
+                    title: 'text-2xl',
+                },
+            });
+        }
 
-    Swal.fire({
-        icon: 'success',
-        iconColor: '#6A5ACD',
-        title: 'Ubicación obtenida correctamente',
-        showConfirmButton: false,
-        width:'300px',
-        timer: 1500,
-        customClass: {
-                        title: 'text-2xl',
-                    },
-    });
-}
-
-function onError(error) {
-    Swal.fire({
+        function onError(error) {
+            Swal.fire({
                 icon: 'error',
-                iconColor:'#6A5ACD',
+                iconColor: '#6A5ACD',
                 title: 'Oops...',
                 text: 'Error al obtener la geolocalización',
                 width: '300px',
-                padding : '10px 0px',
+                padding: '10px 0px',
                 customClass: {
                     title: 'text-2xl',
                     text: 'text-md'
                 }
             });
 
-    Swal.close();
-}
+            Swal.close();
+        }
+    }
 
-document.getElementById('product-form').addEventListener('submit', async function(e) {
+ 
+    let qrCodeUrl = ''; 
+
+document.getElementById('product-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const user = auth.currentUser;
@@ -234,11 +230,10 @@ document.getElementById('product-form').addEventListener('submit', async functio
         if (!itemName || !description || !date || !quantity || !location || !imageFile) {
             Swal.fire({
                 icon: 'error',
-                iconColor:'#6A5ACD',
+                iconColor: '#6A5ACD',
                 title: 'Oops...',
                 text: 'Necesitas llenar todos los campos!',
                 width: '300px',
-                padding : '10px 0px',
                 customClass: {
                     title: 'text-2xl',
                     text: 'text-md'
@@ -248,18 +243,17 @@ document.getElementById('product-form').addEventListener('submit', async functio
         }
 
         const uploadingAlert = Swal.fire({
-        title: 'Subiendo Imagen...',
-        width: '300px',
-        color: '#000',
-        padding: '20px 0',
-        customClass: {
-            title: 'text-3xl',
-            loader: 'border-y-[#6A5ACD] border-x-transparent'
-    },
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
+            title: 'Subiendo Imagen...',
+            width: '280px',
+            color: '#000',
+            customClass: {
+                title: 'text-2xl',
+                loader: 'border-y-[#6A5ACD] border-x-transparent'
+            },
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         let imageUrl = "";
         try {
@@ -271,11 +265,10 @@ document.getElementById('product-form').addEventListener('submit', async functio
             console.error("Error uploading image:", error);
             Swal.fire({
                 icon: 'error',
-                iconColor:'#6A5ACD',
+                iconColor: '#6A5ACD',
                 title: 'Oops...',
                 text: 'Error subiendo la imagen',
                 width: '300px',
-                padding : '10px 0px',
                 customClass: {
                     title: 'text-2xl',
                     text: 'text-md'
@@ -284,7 +277,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
             return;
         }
 
-        // Subida de la imagen completada, ahora guardar el producto
         try {
             const productRef = await db.collection('Usuarios').doc(user.uid).collection('Products').add({
                 itemName,
@@ -296,29 +288,46 @@ document.getElementById('product-form').addEventListener('submit', async functio
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            const productURL = `https://yourdomain.com/product/${productRef.id}`;
+            const productId = productRef.id;
 
-            QRCode.toDataURL(productURL, function (err, url) {
+            const qrText = JSON.stringify({
+                itemName,
+                date,
+                quantity,
+                location
+            });
+
+            QRCode.toDataURL(qrText, async function (err, url) {
                 if (err) {
                     console.error(err);
                     Swal.fire({
-                icon: 'error',
-                iconColor:'#6A5ACD',
-                title: 'Oops...',
-                text: 'Error generando codigo QR',
-                width: '300px',
-                padding : '10px 0px',
-                customClass: {
-                    title: 'text-2xl',
-                    text: 'text-md'
-                }
-            });
+                        icon: 'error',
+                        iconColor: '#6A5ACD',
+                        title: 'Oops...',
+                        text: 'Error generando código QR',
+                        width: '300px',
+                        customClass: {
+                            title: 'text-2xl',
+                            text: 'text-md'
+                        }
+                    });
                     return;
                 }
+
+                const qrCodeRef = firebase.storage().ref().child('qr_codes/' + productId + '.png');
+                await qrCodeRef.putString(url.split(',')[1], 'base64', { contentType: 'image/png' });
+                qrCodeUrl = await qrCodeRef.getDownloadURL(); // Guardar la URL del código QR
+
+                await productRef.update({ qrCodeUrl: qrCodeUrl });
+
                 Swal.close();
+
+                document.getElementById('product-form').classList.add('hidden');
                 const qrCodeContainer = document.querySelector('.qr-code-container');
                 qrCodeContainer.innerHTML = `<img src="${url}">`;
                 document.getElementById('qr-modal').classList.remove('hidden');
+
+                document.getElementById('product-form').reset();
 
                 showProducts();
             });
@@ -326,11 +335,10 @@ document.getElementById('product-form').addEventListener('submit', async functio
             console.error("Error adding product:", error);
             Swal.fire({
                 icon: 'error',
-                iconColor:'#6A5ACD',
+                iconColor: '#6A5ACD',
                 title: 'Oops...',
-                text: 'Erro añadiendo producto',
+                text: 'Error añadiendo producto',
                 width: '300px',
-                padding : '10px 0px',
                 customClass: {
                     title: 'text-2xl',
                     text: 'text-md'
@@ -342,14 +350,52 @@ document.getElementById('product-form').addEventListener('submit', async functio
     }
 });
 
-document.getElementById('close-qr-modal').addEventListener('click', function() {
+document.getElementById('close-qr-modal').addEventListener('click', function () {
     document.getElementById('qr-modal').classList.add('hidden');
-    hideNavBar(); 
+    document.getElementById('product-form').classList.remove('hidden');
+    document.getElementById('add-products-modal').classList.add('hidden');
+
+    showNavBar();
 });
+
+
+document.getElementById('save-qr-btn').addEventListener('click', function () {
+    const qrCodeImg = document.querySelector('.qr-code-container img');
+    
+    if (qrCodeImg) {
+        const link = document.createElement('a');
+        link.href = qrCodeImg.src;
+        link.download = 'codigo-qr.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        Swal.fire({
+            icon: 'error',
+            iconColor: '#6A5ACD',
+            title: 'Oops...',
+            text: 'No se ha encontrado ningún código QR para guardar',
+            width: '300px',
+            customClass: {
+                title: 'text-2xl',
+                text: 'text-md'
+            }
+        });
+    }
+});
+
+document.getElementById('close-qr-modal').addEventListener('click', function () {
+    document.getElementById('qr-modal').classList.add('hidden');
+    document.getElementById('product-form').classList.remove('hidden');
+    document.getElementById('add-products-modal').classList.add('hidden');
+
+    showNavBar();
+});
+    
 
 </script>
 
-<script> /*Mostrar productos y mostrar vista de detalles */
+<script> 
 function initializeMap() {
     const mapElement = document.getElementById('map');
     if (mapElement._leaflet_id) {
@@ -384,7 +430,7 @@ function showProductDetails(productId, productData) {
 
     productsView.classList.add('hidden');
     detailsContainer.classList.remove('hidden');
-    hideNavBar(); // Ocultar la barra de navegación
+    hideNavBar();
 
     document.getElementById('product-image').src = productData.image;
     document.getElementById('product-title').textContent = productData.itemName;
@@ -486,7 +532,8 @@ function showProducts() {
                         <p class="text-[#757575] text-xs">Qty: ${productQuantity}</p>
                     </div>
                     <div class="flex flex-col gap-4 w-1/4">
-                        <div class="flex justify-end">
+                        <div class="flex justify-end gap-2">
+                            <button class="qr-product" data-product-id="${productId}"><img class="w-7" src="Public/assets/qr-code.svg"></button>
                             <button class="delete-product" data-product-id="${productId}"><img class="w-7" src="Public/assets/bx-x.svg"></button>
                         </div>
                         <div class="flex items-center justify-center gap-1">
@@ -502,10 +549,7 @@ function showProducts() {
                 productCard.addEventListener('click', () => {
                     showProductDetails(productId, productData);
                 });
-
-                
             });
-
 
             const deleteButtons = document.querySelectorAll('.delete-product');
             deleteButtons.forEach(button => {
@@ -542,7 +586,7 @@ function showProducts() {
             const incrementButtons = document.querySelectorAll('.increment-quantity');
             incrementButtons.forEach(button => {
                 button.addEventListener('click', async (event) => {
-                    event.stopPropagation(); // Evitar que se dispare el evento de click en la tarjeta del producto
+                    event.stopPropagation(); 
                     const productId = button.getAttribute('data-product-id');
                     const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
 
@@ -594,6 +638,69 @@ function showProducts() {
                     });
                 });
             });
+
+            const qrButtons = document.querySelectorAll('.qr-product');
+            qrButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation(); 
+                    const productId = button.getAttribute('data-product-id');
+                    const productRef = db.collection('Usuarios').doc(user.uid).collection('Products').doc(productId);
+                    
+                    try {
+                        const doc = await productRef.get();
+                        if (!doc.exists) {
+                            throw "Document does not exist!";
+                        }
+
+                        const productData = doc.data();
+                        const qrText = JSON.stringify({
+                            itemName: productData.itemName,
+                            date: productData.date,
+                            quantity: productData.quantity,
+                            location: productData.location
+                        });
+
+                        const qrCodeUrl = await QRCode.toDataURL(qrText);
+
+                        Swal.fire({
+                            title: 'Código QR',
+                            text: 'Aquí está el código QR generado para este producto',
+                            imageUrl: qrCodeUrl,
+                            imageAlt: 'Código QR',
+                            width: '300px',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Descargar',
+                            customClass: {
+                                title: 'text-2xl',
+                                text: 'text-md'
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const link = document.createElement('a');
+                                link.href = qrCodeUrl;
+                                link.download = 'codigo-qr.png';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }
+                        });
+                        
+                    } catch (error) {
+                        console.error("Error generating QR code:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            iconColor: '#6A5ACD',
+                            title: 'Oops...',
+                            text: 'Error generando código QR',
+                            width: '300px',
+                            customClass: {
+                                title: 'text-2xl',
+                                text: 'text-md'
+                            }
+                        });
+                    }
+                });
+            });
         });
 
         document.addEventListener("visibilitychange", function () {
@@ -607,5 +714,8 @@ function showProducts() {
     }
 }
 
+
+
 showProducts();
 </script>
+

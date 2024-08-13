@@ -1,28 +1,107 @@
-<link rel="stylesheet" href="/www/Public/css/tailstyle.css">
+<div id="qr-scanner-container"></div>
 
-<div class="flex flex-col w-[90%] gap-10 m-auto mt-10">  <!-- Div principal utilizo el 90% dela pantalla -->
-
-    <div class="flex gap-2 view-back"> <!--Div para el boton de regresar a la pestaña anterior-->
-        <button><img  src="Public/assets/bx-arrow-back.svg" class="" alt="" srcset=""></button>
-        <h3 class="font-bold">Atrás</h3>
-    </div>
-
-    <div class="w-[85%] m-auto flex flex-col gap-6 ">
-        <div class="flex gap-5 justify-between items-end">
-            <div class="gap-1 flex flex-col">
-                <h3 class="text-fc2 font-bold text-3xl">Escáner QR</h3>
-                <div class="flex-grow border-t border-fc3"></div>
-            </div>
-        </div>
-
-        <div class="bg-black">
-            
+<div id="scanner-overlay" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
+    <div class="text-center text-white ">
+        <p class="text-lg font-bold mb-4">Preparando el escáner...</p>
+        <p class="text-md">Coloca el código QR dentro del área de escaneo</p>
+        <div class="mt-4">
+            <img src="Public/assets/loading.gif" alt="Cargando" class="w-12 h-12 mx-auto" />
         </div>
     </div>
 </div>
 
 <script>
-    document.querySelector('.view-back').addEventListener('click',function(){
-        loadPartialView('home-inventory',document.querySelector('.init'), false);
-    })
+    document.addEventListener('deviceready', function() {
+        document.getElementById('scanner-overlay').style.display = 'flex';
+        setTimeout(startScan, 500); // Espera un poco antes de iniciar el escáner
+    });
+
+    function startScan() {
+        cordova.plugins.barcodeScanner.scan(
+            function (result) {
+                document.getElementById('scanner-overlay').style.display = 'none';
+
+                if (result.cancelled) {
+                    Swal.fire({
+                        title: 'Escaneo Cancelado',
+                        text: 'El escaneo del código QR ha sido cancelado.',
+                        icon: 'warning',
+                        iconColor: '#333333',
+                        width: '300px', 
+                        confirmButtonText: 'Aceptar',
+                        customClass: {
+                            confirmButton: 'bg-fc2 text-white px-4 py-2 rounded',
+                            title: 'text-2xl',
+                            text: 'text-md'
+                        }
+                    });
+                    loadPartialView('home-inventory', document.querySelector('.init'), false);
+                }
+
+                try {
+                    const data = JSON.parse(result.text);
+
+                    Swal.fire({
+                        title: 'Detalles del Producto',
+                        html: `
+                        <div class= "flex flex-col gap-2">
+                            <p><strong>Nombre del Producto:</strong> ${data.itemName}</p>
+                            <p><strong>Fecha de Creación:</strong> ${data.date}</p>
+                            <p><strong>Cantidad:</strong> ${data.quantity}</p>
+                            ${data.location ? `
+                                <a class= "p-2 rounded bg-fc3 text-white" href="https://www.google.com/maps?q=${data.location}" target="_blank" class="swal2-confirm swal2-styled">Ver en Google Maps</a>
+                            ` : ''}
+                        </div>
+                        `,
+                        icon: 'info',
+                        iconColor: '#6A5ACD',
+                        width: '300px',
+                        confirmButtonText: 'Aceptar',
+                        customClass: {
+                            confirmButton: 'bg-fc2 text-white px-4 py-2 rounded',
+                            title: 'text-2xl',
+
+                        }
+                    });
+
+                    alert('');
+                } catch (error) {
+                    Swal.fire({
+                        title: 'Escaneo Cancelado',
+                        text: 'Formato de código QR no válido.',
+                        icon: 'warning',
+                        iconColor: '#333333',
+                        width: '300px', 
+                        confirmButtonText: 'Aceptar',
+                        customClass: {
+                            confirmButton: 'bg-fc2 text-white px-4 py-2 rounded',
+                            title: 'text-2xl',
+                            text: 'text-md'
+                        }
+                    });
+                    return;
+                }
+
+                loadPartialView('home-inventory', document.querySelector('.init'), false);
+            },
+            function (error) {
+                alert("Error al escanear código: " + error);
+                document.getElementById('scanner-overlay').style.display = 'none';
+                loadPartialView('home-inventory', document.querySelector('.init'), false);
+            },
+            {
+                preferFrontCamera: false,
+                showFlipCameraButton: false,
+                showTorchButton: false,
+                torchOn: false,
+                saveHistory: true,
+                prompt: "Coloca el código QR dentro del área de escaneo",
+                resultDisplayDuration: 500,
+                formats: "QR_CODE,PDF_417",
+                orientation: "portrait",
+                disableAnimations: false,
+                disableSuccessBeep: false
+            }
+        );
+    }
 </script>

@@ -61,21 +61,17 @@ document.querySelector('.logout-button').addEventListener('click', function() {
       title: '¿Estás seguro?',
       text: '¿Quieres cerrar sesión?',
       icon: 'warning',
+      iconColor: '#6A5ACD',
+      width: '300px',
       showCancelButton: true,
       confirmButtonColor: '#6A5ACD',
-      cancelButtonColor: '#6A5ACD',
-      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonColor: '#333333',
+      confirmButtonText: 'Cerrar sesión',
       cancelButtonText: 'Cancelar',
       customClass: {
-        popup: 'bg-white border border-gray-200 rounded-md shadow-lg w-80',
-        title: 'font-semibold text-fc2 text-lg',
-        content: 'text-gray-700 text-sm',
-        confirmButton: 'bg-purple-600 text-white hover:bg-purple-700',
-        cancelButton: 'text-purple-600 border border-purple-600 hover:bg-white'
+        title:'text-2xl',
+        text:'text-md'
       },
-      width: 'w-80',
-      padding: '2em',
-      background: '#F3F4F6',
       backdrop: `
         rgba(0,0,0,0.4)
         url('https://sweetalert2.github.io/images/nyan-cat.gif')

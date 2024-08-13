@@ -88,17 +88,28 @@ document.getElementById('save-button').addEventListener('click', function() {
             title: '¿Estás seguro?',
             text: '¿Quieres cambiar los datos?',
             icon: 'warning',
+            iconColor: '#6A5ACD',
+            width: '300px',
             showCancelButton: true,
             confirmButtonColor: '#6A5ACD',
-            cancelButtonColor: '#d33',
+            cancelButtonColor: '#333333',
             confirmButtonText: 'Sí, cambiar',
             cancelButtonText: 'Cancelar',
+            customClass:{
+                title:'text-2xl',
+                text:'text-md'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
-                // Mostrar loading
                 Swal.fire({
                     title: 'Cambiando datos...',
                     allowOutsideClick: false,
+                    width: '280px',
+                    color: '#000',
+                    customClass: {
+                        title: 'text-2xl',
+                        loader: 'border-y-[#6A5ACD] border-x-transparent'
+                    },
                     didOpen: () => {
                         Swal.showLoading();
                     }
@@ -126,8 +137,14 @@ document.getElementById('save-button').addEventListener('click', function() {
                     Promise.all(promises).then(() => {
                         Swal.fire({
                             icon: 'success',
+                            iconColor: '#6A5ACD',
                             title: 'Datos actualizados',
                             text: 'Los datos se han actualizado correctamente.',
+                            width: '300px',
+                            customClass:{
+                              title: 'text-2xl',  
+                              text: 'text-md'  
+                            },
                         }).then(() => {
                             // Actualizar la vista sin cambiar a home-inventory
                             document.getElementById('full-name').value = fullName;
@@ -137,8 +154,14 @@ document.getElementById('save-button').addEventListener('click', function() {
                     }).catch((error) => {
                         Swal.fire({
                             icon: 'error',
+                            iconColor: '#333333',
+                            width: '300px',
                             title: 'Error',
                             text: 'Ocurrió un error al actualizar los datos.',
+                            customClass: {
+                                title: 'text-2xl',
+                                text: 'text-md'
+                            }
                         });
                         console.error('Error al actualizar los datos:', error);
                     });
@@ -152,8 +175,14 @@ document.getElementById('save-button').addEventListener('click', function() {
                     } else {
                         Swal.fire({
                             icon: 'error',
+                            iconColor: '#333333',
+                            width: '300px',
                             title: 'Error',
                             text: 'Error al autenticar. Por favor, revisa los datos.',
+                            customClass: {
+                                title: 'text-2xl',
+                                text: 'text-md'
+                            }
                         });
                     }
                     console.error('Error al volver a autenticar:', error);

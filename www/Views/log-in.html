@@ -39,14 +39,15 @@ document.getElementById('login-button').addEventListener('click', function(event
             console.log('Login successful:', user);
             Swal.fire({
                 icon: 'success',
+                iconColor: '#6A5ACD',
                 title: '¡Listo!',
                 text: 'Has iniciado sesión.',
+                width:'300px',
                 timer: 2000,
                 showConfirmButton: false,
                 customClass: {
-                    popup: 'bg-white border border-gray-200 rounded-md shadow-lg w-80',
-                    title: 'font-semibold text-fc2 text-lg',
-                    content: 'text-gray-700 text-sm',
+                    title:'text-2xl',
+                    text:'text-md',
                 }
             }).then(() => {
                 loadPartialView('home-inventory', document.querySelector('.init'), false);
@@ -63,16 +64,22 @@ document.getElementById('login-button').addEventListener('click', function(event
             } else if (errorMessage.includes('auth/too-many-requests')) {
                 errorMessage = 'Demasiados intentos de inicio de sesión fallidos. Por favor, inténtalo más tarde.';
             } else if (errorMessage.includes('auth/invalid-email')) {
-                errorMessage = 'Correo electrónico inválido. Por favor, verifica tu correo electrónico.';
+                errorMessage = 'Por favor, ingrese un correo electrónico válido.';
+            }else if (errorMessage.includes('auth/invalid-login-credentials')) {
+                errorMessage = 'Contraseña incorrecta. Por favor, inténtalo de nuevo.';
+            }else if (errorMessage.includes('auth/internal-error')) {
+                errorMessage = 'Necesitas completar todos los campos.';
             }
+            
             Swal.fire({
                 icon: 'error',
+                iconColor: '#333333',
                 title: 'Error al iniciar sesión',
                 text: errorMessage,
+                width: '300px',
                 customClass: {
-                    popup: 'bg-white border border-red-300 rounded-md shadow-lg w-80',
-                    title: 'font-semibold text-fc2 text-lg',
-                    content: 'text-gray-700 text-sm',
+                    title:'text-2xl',
+                    text:'text-md',
                 }
             });
         });
